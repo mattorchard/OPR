@@ -34,7 +34,7 @@ UserSchema.pre('save', function (next) {
 UserSchema.statics.authenticate = async function (username, password) {
   const user = await User.findOne({username});
   if (!user) {
-    throw new Error(`User not found for username ${user}`);
+    throw new Error(`User not found for username ${username}`);
   }
   const passwordsMatch = await bcrypt.compare(password, user.password);
   if (!passwordsMatch) {

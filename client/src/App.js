@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import LoginScreen from './Screens/LoginScreen';
+// import { Router, IndexRoute, Route, browserHistory } from 'react-router';
+
 
 class App extends Component {
   state = { users: []};
@@ -12,13 +14,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <ul>
-          {this.state.users.map(user =>
-            <li key={user.id}>{user.username}</li>
-          )}
-        </ul>
-      </div>
+      <LoginScreen/>
     );
   }
 }

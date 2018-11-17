@@ -1,15 +1,12 @@
 const express = require('express');
 const User = require('../common/models/User');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const {isLoggedIn} = require("../custom_middleware/authorization");
 
-
-
-/* GET users listing. */
-router.get('/', function(req, res) {
-  res.json([{
-    id: 1,
-    username: "Mert"
-  }]);
+router.get('/', async function(req, res) {
+  const users = await User.find({deletedOn: undefined});
+  res.json(users.map(user => user.username));
 });
 
 router.post('/', async function(req, res) {
@@ -29,13 +26,21 @@ router.post('/', async function(req, res) {
 
 router.post('/login', async function(req, res) {
   const {username, password} = req.body;
+  console.log(`User: ${username} attempting login`);
   try {
     const user = await User.authenticate(username, password);
-    res.json(user);
+    const token = jwt.sign({id: user._id}, process.env.JWT_SIGNATURE, {expiresIn: 86400});
+    res.json({
+      user, token
+    });
   } catch(error) {
     console.error(error);
     res.status(401).send("Incorrect username / password")
   }
+});
+
+router.get('/me', isLoggedIn, async function(req, res) {
+  res.json("Yup, logged in")
 });
 
 module.exports = router;
