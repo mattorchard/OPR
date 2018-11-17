@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import LoginScreen from './Screens/LoginScreen';
+import LoginScreen from './Screens/LoginScreen/LoginScreen';
 // import { Router, IndexRoute, Route, browserHistory } from 'react-router';
 
 

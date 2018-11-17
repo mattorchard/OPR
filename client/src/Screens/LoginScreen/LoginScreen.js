@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ReactForm from "../Shared/ReactForm";
-import auth from "../Services/auth";
-import {request} from "../Services/request";
+import ReactForm from "../../Shared/ReactForm";
+import auth from "../../Services/auth";
+import {request} from "../../Services/request";
 
 class LoginForm extends ReactForm {
   constructor(props) {
@@ -29,6 +29,7 @@ class LoginForm extends ReactForm {
       const {user, token} = await loginResponse.json();
       auth.setToken(token, true);
       auth.setUserInfo(user, true);
+      this.props.history.push("/");
     } else if (loginResponse.status === 401) {
       this.setState({loginFailed: true});
     } else {
