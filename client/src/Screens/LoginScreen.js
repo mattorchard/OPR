@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactForm from "../Shared/ReactForm";
-import auth from "../Shared/auth";
+import auth from "../Services/auth";
+import {request} from "../Services/request";
 
 class LoginForm extends ReactForm {
   constructor(props) {
@@ -66,12 +67,7 @@ class LoginScreen extends Component {
         <h1>Login</h1>
         <LoginForm/>
         <button onClick={async ()=>{
-          const response = await fetch("/users/me", {
-            headers:{
-              'Content-Type': 'application/json',
-              "x-access-token": auth.getToken()
-            }
-          });
+          const response = await request("/users/me");
           console.log(response)
         }}>Test</button>
       </div>
