@@ -64,14 +64,14 @@ class LoginForm extends ReactForm {
 class LoginScreen extends Component {
   render() {
     return (
-      <div>
+      <main>
         <h1>Login</h1>
         <LoginForm/>
         <button onClick={async ()=>{
           const response = await request("/users/me");
           console.log(response)
         }}>Test</button>
-      </div>
+      </main>
     );
   }
 }

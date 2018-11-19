@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 export default class LandingScreen extends Component {
   render() {
     return <main>
+      <h1>Online Property Rental System</h1>
       Welcome to Houses of Dreams Online Property Rental System
       <ul>
         <li>
