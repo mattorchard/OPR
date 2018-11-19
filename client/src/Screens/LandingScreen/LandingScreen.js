@@ -20,6 +20,9 @@ export default class LandingScreen extends Component {
         <li>
           <Link to="/visiting-list">Visiting List</Link>
         </li>
+        <li>
+          <Link to="/create-account">Create Account</Link>
+        </li>
       </ul>
     </main>;
   }
