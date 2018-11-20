@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactForm from "../../Shared/ReactForm";
 import {request} from "../../Services/request";
 import {UserConsumer} from "../../Contexts/UserContext";
+import Redirect from "react-router-dom/es/Redirect";
 
 class LoginForm extends ReactForm {
   constructor(props) {
@@ -64,8 +65,9 @@ class LoginForm extends ReactForm {
 
 class LoginScreen extends Component {
   render() {
-    return (
-      <main>
+    return <UserConsumer>
+        {({authenticated})=>(
+        authenticated ? <Redirect to="/"/> : <main>
         <h1>Login</h1>
         <LoginForm/>
         <button onClick={async ()=>{
@@ -73,7 +75,8 @@ class LoginScreen extends Component {
           console.log(response)
         }}>Test</button>
       </main>
-    );
+      )}
+      </UserConsumer>
   }
 }
 export default LoginScreen

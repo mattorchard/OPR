@@ -16,17 +16,19 @@ export default class App extends Component {
 
   render() {
     return <Auth>
-      <NavBar/>
       <BrowserRouter>
-        <Switch>
-          <Route path="/" component={LandingScreen} exact={true}/>
-          <Route path="/login" component={LoginScreen}/>
-          <Route path="/my-properties" component={MyPropertiesScreen}/>
-          <Route path="/my-account" component={UserScreen}/>
-          <Route path="/create-account" component={CreateUserScreen}/>
-          <Route path="/browse" component={BrowsePropertiesScreen}/>
-          <Route path="/visiting-list" component={VisitingListScreen}/>
-        </Switch>
+        <div>
+        <NavBar/>
+          <Switch>
+            <Route path="/" component={LandingScreen} exact={true}/>
+            <Route path="/login" component={LoginScreen}/>
+            <Route path="/my-properties" component={MyPropertiesScreen}/>
+            <Route path="/my-account" component={UserScreen}/>
+            <Route path="/create-account" component={CreateUserScreen}/>
+            <Route path="/browse" component={BrowsePropertiesScreen}/>
+            <Route path="/visiting-list" component={VisitingListScreen}/>
+          </Switch>
+        </div>
       </BrowserRouter>
     </Auth>
   }
