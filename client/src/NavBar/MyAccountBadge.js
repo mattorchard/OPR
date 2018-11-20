@@ -8,15 +8,16 @@ export default class MyAccountBadge extends Component {
     this.state = {
       open: false
     };
-    this.letter = this.props.role.charAt(0).toUpperCase();
+    this.letter = this.props.givenName.charAt(0).toUpperCase();
   }
 
   render() {
     return <div className="my-account-badge">
       <button
         type="button"
+        title={`${this.props.givenName} ${this.props.lastName}`}
         onClick={() => this.setState(oldState => ({open: !oldState.open}))}
-        className={`my-account-badge__toggle avatar--${this.props.role}`}>
+        className={`my-account-badge__toggle avatar avatar--${this.props.role}`}>
         {this.letter}
       </button>
       <div className={`my-account-badge__popover my-account-badge__popover--${this.state.open ? "open" : "closed"}`}>

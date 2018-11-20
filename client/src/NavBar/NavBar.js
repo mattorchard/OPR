@@ -6,10 +6,13 @@ import "./NavBar.css";
 
 export default class NavBar extends Component {
   render() {
-    return <UserConsumer>
-      {({authenticated, user})=>(
-        authenticated ? <MyAccountBadge {...user}/> : <Link to="/login">Login</Link>
-      )}
-    </UserConsumer>
+    return <nav className="nav-bar">
+      <Link to="/" className="nav-bar__title">OPR System</Link>
+      <UserConsumer>
+        {({authenticated, user}) => (
+          authenticated ? <MyAccountBadge {...user}/> : <Link to="/login">Login</Link>
+        )}
+      </UserConsumer>
+    </nav>
   }
 }
