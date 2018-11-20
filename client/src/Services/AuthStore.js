@@ -15,7 +15,7 @@ function isEmpty(value) {
 
 }
 
-const auth = {
+const authStore = {
   clear(key) {
     if (localStorage && localStorage.getItem(key)) {
       return localStorage.removeItem(key);
@@ -39,11 +39,11 @@ const auth = {
   },
 
   clearToken(tokenKey = TOKEN_KEY) {
-    return auth.clear(tokenKey);
+    return authStore.clear(tokenKey);
   },
 
   clearUserInfo(userInfo = USER_INFO) {
-    return auth.clear(userInfo);
+    return authStore.clear(userInfo);
   },
   
   get(key) {
@@ -57,11 +57,11 @@ const auth = {
   },
 
   getToken(tokenKey = TOKEN_KEY) {
-    return auth.get(tokenKey);
+    return authStore.get(tokenKey);
   },
 
   getUserInfo(userInfo = USER_INFO) {
-    return auth.get(userInfo);
+    return authStore.get(userInfo);
   },
 
   set(value, key, isLocalStorage) {
@@ -81,12 +81,12 @@ const auth = {
   },
 
   setToken(value = '', isLocalStorage = false, tokenKey = TOKEN_KEY) {
-    return auth.set(value, tokenKey, isLocalStorage);
+    return authStore.set(value, tokenKey, isLocalStorage);
   },
 
   setUserInfo(value = '', isLocalStorage = false, userInfo = USER_INFO) {
-    return auth.set(value, userInfo, isLocalStorage);
+    return authStore.set(value, userInfo, isLocalStorage);
   },
 };
 
-export default auth;
+export default authStore;

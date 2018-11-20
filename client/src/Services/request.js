@@ -1,4 +1,6 @@
-import auth from "./auth";
+import AuthStore from "./AuthStore";
+
+const token = AuthStore.getToken();
 
 function request (url, options={}) {
   if (typeof options.body === "object") {
@@ -9,7 +11,7 @@ function request (url, options={}) {
     headers: {
       ...options.headers,
       "Content-Type": "application/json",
-      "x-access-token": auth.getToken()
+      "x-access-token": token
     }
   });
 }

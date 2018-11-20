@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import ReactForm from "../Shared/ReactForm";
-import auth from "../Services/auth";
-import {request} from "../Services/request";
+import ReactForm from "../../Shared/ReactForm";
+import {request} from "../../Services/request";
+import {UserConsumer} from "../../Contexts/UserContext";
+import Redirect from "react-router-dom/es/Redirect";
 
 class LoginForm extends ReactForm {
   constructor(props) {
@@ -13,7 +14,7 @@ class LoginForm extends ReactForm {
     this.login = this.login.bind(this);
   }
 
-  async login(event) {
+  async login(event, authenticate) {
     event.preventDefault();
     const loginResponse = await fetch("/users/login", {
       method: "POST",
@@ -27,8 +28,8 @@ class LoginForm extends ReactForm {
     });
     if (loginResponse.ok) {
       const {user, token} = await loginResponse.json();
-      auth.setToken(token, true);
-      auth.setUserInfo(user, true);
+      debugger;
+      authenticate(user, token);
     } else if (loginResponse.status === 401) {
       this.setState({loginFailed: true});
     } else {
@@ -43,8 +44,9 @@ class LoginForm extends ReactForm {
         Incorrect username / password
       </span>);
     }
-    return (
-      <form onSubmit={this.login}>
+    return <UserConsumer>
+      {({authenticate})=>(
+      <form onSubmit={(event) => this.login(event, authenticate)}>
         <label>
           Username
           <input type="text" name="username" value={this.state.username} onChange={this.handleInputChange}/>
@@ -56,22 +58,25 @@ class LoginForm extends ReactForm {
         {loginFailedMessage}
         <input type="submit" value="Login"/>
       </form>
-    );
+      )}
+    </UserConsumer>
   }
 }
 
 class LoginScreen extends Component {
   render() {
-    return (
-      <div>
+    return <UserConsumer>
+        {({authenticated})=>(
+        authenticated ? <Redirect to="/"/> : <main>
         <h1>Login</h1>
         <LoginForm/>
         <button onClick={async ()=>{
           const response = await request("/users/me");
           console.log(response)
         }}>Test</button>
-      </div>
-    );
+      </main>
+      )}
+      </UserConsumer>
   }
 }
 export default LoginScreen
