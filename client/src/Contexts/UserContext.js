@@ -2,7 +2,7 @@ import React from "react";
 
 const UserContext = React.createContext({
   authenticated: false,
-  user: {roles: ["visitor"]},
+  user: {role: "visitor"},
   token: null,
   authenticate: (user, token) => {},
   unAuthenticate: () => {}

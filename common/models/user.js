@@ -61,7 +61,14 @@ UserSchema.statics.authenticate = async function (username, password) {
   if (!passwordsMatch) {
     throw new Error("Incorrect password");
   }
-  return {username: user.username, email: user.email, id: user._id};
+  return {
+    id: user._id,
+    role: user.__t.toLowerCase(),
+    username: user.username,
+    email: user.email,
+    givenName: user.givenName,
+    lastName: user.lastName
+  };
 };
 
 
