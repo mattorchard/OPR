@@ -1,0 +1,19 @@
+.my-account-badge {
+    float: right;
+    position: relative;
+}
+.my-account-badge__toggle {
+    float: right;
+}
+.my-account-badge__popover {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 100%;
+    width: 200px;
+}
+.my-account-badge__popover--open {
+    display: block;
+}
+
+
