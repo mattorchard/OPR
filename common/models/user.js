@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+// Generic user schema
 const UserSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -17,9 +18,28 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  }
+  },
+  givenName: {
+    type: String,
+    required: true,
+    trim: "true"
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: "true"
+  },
+  createdOn: {
+    type: Date,
+    required: true
+  },
+  deletedOn: {
+    type: Date
+  },
+
 });
 
+// Hash password
 UserSchema.pre('save', function (next) {
   const user = this;
   bcrypt.hash(user.password, 10, function (err, hash){
@@ -31,6 +51,7 @@ UserSchema.pre('save', function (next) {
   })
 });
 
+// Validate credentials
 UserSchema.statics.authenticate = async function (username, password) {
   const user = await User.findOne({username});
   if (!user) {
@@ -43,5 +64,27 @@ UserSchema.statics.authenticate = async function (username, password) {
   return {username: user.username, email: user.email, id: user._id};
 };
 
+
+// Super-Schema for generic users
 const User = mongoose.model('User', UserSchema);
-module.exports = User;
+
+// Schema subclass for Agents
+const Agent = User.discriminator("Agent", new mongoose.Schema({
+
+}));
+
+
+// Schema subclass for Owners
+const Owner = User.discriminator("Owner", new mongoose.Schema({
+
+}));
+
+// Schema subclass for Customers
+const Customer = User.discriminator("Customer", new mongoose.Schema({
+  maximumRent: {
+    type: Number,
+    require: true
+  }
+}));
+
+module.exports = {User, Agent, Owner, Customer};
