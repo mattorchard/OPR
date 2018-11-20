@@ -9,6 +9,22 @@ export default class MyAccountBadge extends Component {
       open: false
     };
     this.letter = this.props.givenName.charAt(0).toUpperCase();
+    this.togglePopover = this.togglePopover.bind(this);
+    this.removePopover = this.removePopover.bind(this);
+  }
+
+  togglePopover() {
+    this.setState(oldState => {
+      if (!oldState.open) {
+        document.addEventListener("click", this.removePopover);
+      }
+      return {open: !oldState.open}
+    });
+  }
+
+  removePopover() {
+    this.setState({open: false});
+    document.removeEventListener("click", this.removePopover)
   }
 
   render() {
@@ -16,7 +32,7 @@ export default class MyAccountBadge extends Component {
       <button
         type="button"
         title={`${this.props.givenName} ${this.props.lastName}`}
-        onClick={() => this.setState(oldState => ({open: !oldState.open}))}
+        onClick={this.togglePopover}
         className={`my-account-badge__toggle avatar avatar--${this.props.role}`}>
         {this.letter}
       </button>
