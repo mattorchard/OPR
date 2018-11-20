@@ -19,7 +19,7 @@ export default class Auth extends Component {
         authenticated: false,
         token: null,
         user: {
-          roles: ["visitor"]
+          role: "visitor"
         }
       };
     }

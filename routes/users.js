@@ -1,25 +1,61 @@
 const express = require('express');
-const User = require('../common/models/User');
+const {User, Agent, Owner, Customer} = require('../common/models/User');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {isLoggedIn} = require("../custom_middleware/authorization");
 
-router.get('/', async function(req, res) {
-  const users = await User.find({deletedOn: undefined});
-  res.json(users.map(user => user.username));
+router.post('/agent', async function(req, res) {
+  const {agentKey, email, username, password, givenName, lastName} = req.body;
+  if (agentKey !== process.env.AGENT_KEY) {
+    return res.status(418).send("Incorrect agent key");
+  } else if (!email || !username || !password || !givenName  || !lastName) {
+    return res.status(412).send("User must have all fields");
+  }
+  console.log(`Creating agent: ${email}`);
+  try {
+    const createdAgent = await Agent.create({createdOn: Date.now(), email, username, password, givenName, lastName});
+    console.log("Created agent");
+    res.json({
+      id: createdAgent._id,
+      role: createdAgent.__t,
+      email, username
+    });
+  } catch(error) {
+    res.status(500).send("Account not created");
+    console.error("Account not created", error);
+  }
 });
 
-router.post('/', async function(req, res) {
-  const {email, username, password} = req.body;
-  if (!email || !username || !password) {
-    return res.status(412).send("Account must have email, username, and password");
+
+// Intended for creating Owners and Customers as an Agent
+router.post('/', isLoggedIn, async function(req, res) {
+  const {email, username, password, givenName, lastName, maximumRent, type} = req.body;
+  if (!email || !username || !password || !givenName  || !lastName) {
+    return res.status(412).send("User must have all fields");
   }
-  console.log(`Creating account: ${email}, ${username}`);
+
+  console.log(`Creating account: ${email}`);
   try {
-    const createdUser = await User.create({email, username, password});
-    console.log("Account created!");
-    res.json({id: createdUser._id, username, email});
+    const userInfo = {createdOn: Date.now(), email, username, password, givenName, lastName};
+    let createdUser;
+    if (type === "owner") {
+      createdUser = await Owner.create(userInfo);
+    } else if (type === "customer") {
+      if (!maximumRent || maximumRent < 1) {
+        return res.status(412).send("Maximum rent must be a positive number");
+      }
+      createdUser = await Customer.create({...userInfo, maximumRent})
+    } else {
+      return res.status(412).send("Type must be one of [customer, agent]");
+    }
+     console.log("Account created!");
+    res.json({
+      id: createdUser._id,
+      role: createdUser.__t,
+      username, email
+    });
   } catch (error) {
+    res.status(500).send("Account not created");
     console.error("Account not created", error);
   }
 });
