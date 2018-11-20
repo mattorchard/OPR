@@ -1,3 +1,26 @@
 form.vertical-form > *{
     display: block;
 }
+
+.avatar {
+    cursor: pointer;
+    font-size: large;
+    font-weight: bolder;
+    padding: 10px 10px;
+    margin: 5px;
+    color: white;
+    border: none;
+    border-radius: 1000px;
+    width: 3rem;
+    height: 3rem;
+}
+
+.avatar--customer {
+    background-color: green;
+}
+.avatar--owner {
+    background-color: mediumpurple;
+}
+.avatar--agent {
+    background-color: dodgerblue;
+}

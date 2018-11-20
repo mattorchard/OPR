@@ -1,0 +1,37 @@
+.nav-bar {
+    background-color: darkslategrey;
+    padding: 10px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+}
+.nav-bar > * {
+    margin-top: 0;
+    color: white;
+}
+.nav-bar__title {
+    padding-top: 5px;
+    cursor: pointer;
+    user-select: none;
+    text-decoration: none;
+    font-size: xx-large;
+    font-weight: bolder;
+}
+.my-account-badge {
+    position: relative;
+}
+.my-account-badge__popover {
+    display: none;
+    color: black;
+    box-shadow: 2px 2px 5px rgba(20,20,20,.2);
+    background-color: white;
+    position: absolute;
+    top: 90%;
+    right: 100%;
+    width: 200px;
+}
+.my-account-badge__popover--open {
+    display: block;
+}
+
+

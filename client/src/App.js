@@ -9,7 +9,7 @@ import UserScreen from "./Screens/UserScreen/UserScreen";
 import CreateUserScreen from "./Screens/CreateUserScreen/CreateUserScreen";
 import BrowsePropertiesScreen from "./Screens/BrowsePropertiesScreen/BrowsePropertiesScreen";
 import VisitingListScreen from "./Screens/VisitingListScreen/VisitingListScreen";
-import NavBar from "./Shared/NavBar";
+import NavBar from "./NavBar/NavBar";
 
 
 export default class App extends Component {
