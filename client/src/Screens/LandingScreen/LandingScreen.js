@@ -10,17 +10,17 @@ export default class LandingScreen extends Component {
       <h1>Online Property Rental System</h1>
       Welcome to Houses of Dreams Online Property Rental System
 
-      <UserConsumer>{({user}) => {
+      <UserConsumer>{({authenticated, user}) => {
         const links = { "/browse": "Browse Properties" };
-        if (user.authenticated) {
+        if (authenticated) {
           links["/my-account"] = "My Account";
-        }
-        if (user.role === "owner") {
-          links["/my-properties"] = "My Properties";
-        } else if (user.role === "customer") {
-          links["/visiting-list"] = "Visiting List";
-        } else if (user.role === "agent") {
-          links["/create-account"] = "Create Account";
+          if (user.role === "owner") {
+            links["/my-properties"] = "My Properties";
+          } else if (user.role === "customer") {
+            links["/visiting-list"] = "Visiting List";
+          } else if (user.role === "Agent") {
+            links["/create-account"] = "Create Account";
+          }
         }
         return <ul> {
           Object.entries(links).map(([url, label]) =>

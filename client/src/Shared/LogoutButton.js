@@ -4,8 +4,8 @@ import {UserConsumer} from "../Contexts/UserContext";
 
 export default class LogoutButton extends Component {
   render() {
-    return <UserConsumer>{({unAuthenticate}) => (
-      <button type="button" onClick={unAuthenticate}>Logout</button>
+    return <UserConsumer>{({forgetAuth}) => (
+      <button type="button" onClick={forgetAuth}>Logout</button>
     )}</UserConsumer>
   }
 }
