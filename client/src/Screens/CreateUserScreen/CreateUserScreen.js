@@ -33,7 +33,6 @@ export default class CreateUserScreen extends Component {
   }
 
   render() {
-    // Todo: this
     return <main className="create-user-screen">
       <h1>Create User</h1>
       <UserDetailsForm onSubmit={this.createUser}/>
