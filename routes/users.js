@@ -29,7 +29,7 @@ router.post('/agent', async function(req, res) {
 
 // Intended for creating Owners and Customers as an Agent
 router.post('/', isLoggedIn, async function(req, res) {
-  const {email, username, password, givenName, lastName, maximumRent, type} = req.body;
+  const {email, username, password, givenName, lastName, maximumRent, role} = req.body;
   if (!email || !username || !password || !givenName  || !lastName) {
     return res.status(412).send("User must have all fields");
   }
@@ -38,9 +38,9 @@ router.post('/', isLoggedIn, async function(req, res) {
   try {
     const userInfo = {createdOn: Date.now(), email, username, password, givenName, lastName};
     let createdUser;
-    if (type === "owner") {
+    if (role === "owner") {
       createdUser = await Owner.create(userInfo);
-    } else if (type === "customer") {
+    } else if (role === "customer") {
       if (!maximumRent || maximumRent < 1) {
         return res.status(412).send("Maximum rent must be a positive number");
       }
