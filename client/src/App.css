@@ -1,7 +1,16 @@
-form.vertical-form > *{
+form.vertical-form > label {
+    display: block;
+    margin-bottom: 10px;
+}
+form.vertical-form > label > input,
+form.vertical-form > label > select {
     display: block;
 }
-
+.card {
+    box-shadow: 2px 2px 5px rgba(20,20,20,.2);
+    display: inline-block;
+    padding: 10px;
+}
 .avatar {
     cursor: pointer;
     font-size: large;

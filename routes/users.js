@@ -4,6 +4,15 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {isLoggedIn} = require("../custom_middleware/authorization");
 
+const formatUser = user => ({
+  id: user._id,
+  role: user.__t.toLowerCase(),
+  email: user.email,
+  username: user.username,
+  givenName: user.givenName,
+  lastName: user.lastName
+});
+
 router.post('/agent', async function(req, res) {
   const {agentKey, email, username, password, givenName, lastName} = req.body;
   if (agentKey !== process.env.AGENT_KEY) {
@@ -15,11 +24,7 @@ router.post('/agent', async function(req, res) {
   try {
     const createdAgent = await Agent.create({createdOn: Date.now(), email, username, password, givenName, lastName});
     console.log("Created agent");
-    res.json({
-      id: createdAgent._id,
-      role: createdAgent.__t,
-      email, username
-    });
+    res.json(formatUser(createdAgent));
   } catch(error) {
     res.status(500).send("Account not created");
     console.error("Account not created", error);
@@ -29,7 +34,7 @@ router.post('/agent', async function(req, res) {
 
 // Intended for creating Owners and Customers as an Agent
 router.post('/', isLoggedIn, async function(req, res) {
-  const {email, username, password, givenName, lastName, maximumRent, type} = req.body;
+  const {email, username, password, givenName, lastName, maximumRent, role} = req.body;
   if (!email || !username || !password || !givenName  || !lastName) {
     return res.status(412).send("User must have all fields");
   }
@@ -38,9 +43,9 @@ router.post('/', isLoggedIn, async function(req, res) {
   try {
     const userInfo = {createdOn: Date.now(), email, username, password, givenName, lastName};
     let createdUser;
-    if (type === "owner") {
+    if (role === "owner") {
       createdUser = await Owner.create(userInfo);
-    } else if (type === "customer") {
+    } else if (role === "customer") {
       if (!maximumRent || maximumRent < 1) {
         return res.status(412).send("Maximum rent must be a positive number");
       }
@@ -49,11 +54,7 @@ router.post('/', isLoggedIn, async function(req, res) {
       return res.status(412).send("Type must be one of [customer, agent]");
     }
      console.log("Account created!");
-    res.json({
-      id: createdUser._id,
-      role: createdUser.__t,
-      username, email
-    });
+    res.json(formatUser(createdUser));
   } catch (error) {
     res.status(500).send("Account not created");
     console.error("Account not created", error);
@@ -65,9 +66,10 @@ router.post('/login', async function(req, res) {
   console.log(`User: ${username} attempting login`);
   try {
     const user = await User.authenticate(username, password);
-    const token = jwt.sign({id: user._id}, process.env.JWT_SIGNATURE, {expiresIn: 86400});
+    const token = jwt.sign({id: user.id}, process.env.JWT_SIGNATURE, {expiresIn: 86400});
     res.json({
-      user, token
+      user: formatUser(user),
+      token
     });
   } catch(error) {
     console.error(error);
@@ -76,7 +78,7 @@ router.post('/login', async function(req, res) {
 });
 
 router.get('/me', isLoggedIn, async function(req, res) {
-  res.json("Yup, logged in")
+  res.json(formatUser(req.user));
 });
 
 module.exports = router;

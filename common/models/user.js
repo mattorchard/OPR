@@ -18,6 +18,7 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+    select: false
   },
   givenName: {
     type: String,
@@ -53,7 +54,7 @@ UserSchema.pre('save', function (next) {
 
 // Validate credentials
 UserSchema.statics.authenticate = async function (username, password) {
-  const user = await User.findOne({username});
+  const user = await User.findOne({username}).select('+password');
   if (!user) {
     throw new Error(`User not found for username ${username}`);
   }
@@ -61,14 +62,7 @@ UserSchema.statics.authenticate = async function (username, password) {
   if (!passwordsMatch) {
     throw new Error("Incorrect password");
   }
-  return {
-    id: user._id,
-    role: user.__t.toLowerCase(),
-    username: user.username,
-    email: user.email,
-    givenName: user.givenName,
-    lastName: user.lastName
-  };
+  return user;
 };
 
 

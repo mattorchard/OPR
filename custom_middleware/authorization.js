@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const {User} = require('../common/models/User');
 
 async function isLoggedIn(req, res, next) {
   console.log("Checking if logged in");
@@ -9,11 +10,15 @@ async function isLoggedIn(req, res, next) {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SIGNATURE);
-    req.userId = decoded.id;
+    req.user = await User.findById(decoded.id);
+    if (!req.user) {
+      return res.status(401)
+        .send("Failed to authenticate token")
+    }
     return next();
   } catch (error) {
     return res.status(401)
-      .send("Failed to authenticate token.");
+      .send("Failed to authenticate token");
   }
 }
 

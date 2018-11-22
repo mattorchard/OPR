@@ -4,8 +4,8 @@ const UserContext = React.createContext({
   authenticated: false,
   user: {role: "visitor"},
   token: null,
-  authenticate: (user, token) => {},
-  unAuthenticate: () => {}
+  saveAuth: (user, token) => {},
+  forgetAuth: () => {}
 });
 
 export const UserProvider = UserContext.Provider;

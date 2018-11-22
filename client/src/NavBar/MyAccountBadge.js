@@ -36,7 +36,7 @@ export default class MyAccountBadge extends Component {
         className={`my-account-badge__toggle avatar avatar--${this.props.role}`}>
         {this.letter}
       </button>
-      <div className={`my-account-badge__popover my-account-badge__popover--${this.state.open ? "open" : "closed"}`}>
+      <div className={`my-account-badge__popover card my-account-badge__popover--${this.state.open ? "open" : "closed"}`}>
         <ul>
           <li>Signed in as: <strong>{this.props.username}</strong></li>
           <li>{this.props.givenName}</li>
