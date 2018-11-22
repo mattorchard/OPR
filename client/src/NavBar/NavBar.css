@@ -23,7 +23,6 @@
 .my-account-badge__popover {
     display: none;
     color: black;
-    box-shadow: 2px 2px 5px rgba(20,20,20,.2);
     background-color: white;
     position: absolute;
     top: 90%;
