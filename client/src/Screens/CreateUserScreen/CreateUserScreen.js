@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import ReactForm from "../../Shared/ReactForm";
-import {request} from "../../Services/request";
+import axios from "axios";
 import "./CreateUserScreen.css";
+
 
 export default class CreateUserScreen extends Component {
   constructor(props) {
@@ -14,10 +15,7 @@ export default class CreateUserScreen extends Component {
   }
 
   async createUser(userInfo) {
-    const response = await request("/users", {
-      method: "POST",
-      body: userInfo
-    });
+    const response = await axios.post("/users", userInfo);
     if (response.ok) {
       this.setState({successMessage: "Account Created!", errorMessage: null});
     } else {
