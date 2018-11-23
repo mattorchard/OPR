@@ -12,7 +12,6 @@ export default class LandingScreen extends Component {
 
       <UserConsumer>{({authenticated, user}) => {
         const links = { "/browse": "Browse Properties" };
-        console.log("user", user, authenticated);
         if (authenticated) {
           links["/my-account"] = "My Account";
           if (user.role === "owner") {
