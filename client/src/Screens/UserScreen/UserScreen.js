@@ -1,17 +1,51 @@
 import React, {Component} from "react";
 import {UserConsumer} from "../../Contexts/UserContext";
 import ReactForm from "../../Shared/ReactForm";
+import SingleInputForm from "../../Shared/SingleInputForm";
+import axios from "axios";
 
 export default class UserScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      successMessage: "",
+      errorMessage: ""
+    };
+    this.updateEmail = this.updateEmail.bind(this)
+  }
+
+  async updateEmail(email)  {
+    try {
+      await axios.put("/users", {email});
+      this.setState({successMessage: "Email updated", errorMessage: ""});
+    } catch (error) {
+      console.error(error);
+      if (error.response.status === 409) {
+        this.setState({errorMessage: "Email already in use", successMessage: ""});
+      } else {
+        this.setState({errorMessage: "Unknown error", successMessage: ""});
+      }
+      throw error;
+    }
+  }
+
   render() {
     return <main>
       <h1>My Account</h1>
       <UserConsumer>{
         ({user}) => (
-          <UserDetails {...user}>
-            <li>Email: <EditEmail email={user.email}/></li>
-            <li><EditPassword/></li>
-          </UserDetails>
+          <div>
+            <UserDetails {...user}/>
+            <SingleInputForm
+              onSubmit={this.updateEmail}
+              value={user.email}
+              label="Change email">
+              <input type="email" placeholder="jdoe@example.com"/>
+            </SingleInputForm>
+            <EditPassword/>
+            {this.state.errorMessage}
+            {this.state.successMessage}
+          </div>
         )}
       </UserConsumer>
     </main>;
@@ -32,30 +66,13 @@ class UserDetails extends Component {
         Username: {this.props.username}
       </li>
       <li>
-        Role: {this.props.role}s
+        Role: {this.props.role}
       </li>
-      {this.props.children}
+      <li>
+        Email: {this.props.email}
+      </li>
+
     </ul>
-  }
-}
-
-class EditEmail extends ReactForm {
-  state = {
-    email: this.props.email,
-    enabled: false
-  };
-
-  render() {
-    return <form>
-      <input
-        type="email"
-        placeholder="jdoe@example.com"
-        value={this.state.email}
-        disabled={!this.state.enabled}
-        onChange={this.handleInputChange}>
-      </input>
-      <button onClick={this.toggle}>Edit</button>
-    </form>
   }
 }
 
