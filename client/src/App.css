@@ -6,6 +6,9 @@ form.vertical-form > label > input,
 form.vertical-form > label > select {
     display: block;
 }
+main {
+    padding: 20px;
+}
 .card {
     box-shadow: 2px 2px 5px rgba(20,20,20,.2);
     display: inline-block;
