@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ReactForm from "../../Shared/ReactForm";
 import {UserConsumer} from "../../Contexts/UserContext";
 import Redirect from "react-router-dom/es/Redirect";
-import axios from "axios";
 
 class LoginForm extends ReactForm {
   constructor(props) {
@@ -39,7 +38,7 @@ class LoginForm extends ReactForm {
   render() {
     return <UserConsumer>
       {({saveAuth}) => (
-        <form onSubmit={(event) => this.login(event, saveAuth)}>
+        <form className="card vertical-form" onSubmit={(event) => this.login(event, saveAuth)}>
           <label>
             Username
             <input type="text" name="username" value={this.state.username} onChange={this.handleInputChange}/>
@@ -59,7 +58,6 @@ class LoginForm extends ReactForm {
 }
 
 class LoginScreen extends Component {
-  state = {test: ""};
 
   render() {
     return <UserConsumer>
@@ -67,12 +65,6 @@ class LoginScreen extends Component {
         authenticated ? <Redirect to="/"/> : <main>
           <h1>Login</h1>
           <LoginForm/>
-          <button onClick={async () => {
-            const response = await axios.get("/users/me");
-            this.setState({test: response.status})
-          }}>Test
-          </button>
-          {this.state.test}
         </main>
       )}
     </UserConsumer>
