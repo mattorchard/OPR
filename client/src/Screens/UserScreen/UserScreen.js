@@ -4,19 +4,21 @@ import ReactForm from "../../Shared/ReactForm";
 import SingleInputForm from "../../Shared/SingleInputForm";
 import axios from "axios";
 import {withRouter} from "react-router-dom";
+import Modal from "react-modal";
 
 class UserScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       successMessage: "",
-      errorMessage: ""
+      errorMessage: "",
+      isConfirmingAccountDeactivation: false
     };
     this.updateEmail = this.updateEmail.bind(this);
     UserScreen.deactivateAccount = UserScreen.deactivateAccount.bind(this);
   }
 
-  async updateEmail(email)  {
+  async updateEmail(email) {
     try {
       await axios.patch("/users", {email});
       this.setState({successMessage: "Email updated", errorMessage: ""});
@@ -57,7 +59,26 @@ class UserScreen extends Component {
             <EditPassword/>
             {this.state.errorMessage}
             {this.state.successMessage}
-            <button type="button" onClick={() => UserScreen.deactivateAccount(forgetAuth)}>Deactivate account?</button>
+
+            <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: true})}>
+              Deactivate account?
+            </button>
+
+            <Modal contentLabel="Confirm account deactivation"
+              isOpen={this.state.isConfirmingAccountDeactivation}
+              style={{content: {top: '50%', left: '50%', right: 'auto', bottom: 'auto', marginRight: "-50%", transform: 'translate(-50%,-50%)'}}}>
+              <h3>Confirm account deactivation</h3>
+              <p>
+                Are you sure you want to <strong>deactivate</strong> your account?
+                This action will also sign you out.
+              </p>
+              <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: false})}>
+                Cancel
+              </button>
+              <button type="button" onClick={() => UserScreen.deactivateAccount(forgetAuth)}>
+                Deactivate
+              </button>
+            </Modal>
           </div>
         )}
       </UserConsumer>
@@ -90,6 +111,7 @@ class UserDetails extends Component {
   }
 }
 
+//Todo: Edit password option
 class EditPassword extends ReactForm {
   state = {
     enabled: false
