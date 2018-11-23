@@ -82,7 +82,7 @@ router.get('/me', isLoggedIn, async function(req, res) {
 });
 
 
-router.put('/', isLoggedIn, async function(req, res) {
+router.patch('/', isLoggedIn, async function(req, res) {
   const {email, password} = req.body;
   console.log("Foo", email, password);
   if (!email && !password) {

@@ -18,7 +18,7 @@ class UserScreen extends Component {
 
   async updateEmail(email)  {
     try {
-      await axios.put("/users", {email});
+      await axios.patch("/users", {email});
       this.setState({successMessage: "Email updated", errorMessage: ""});
     } catch (error) {
       console.error(error);
