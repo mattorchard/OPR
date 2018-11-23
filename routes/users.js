@@ -105,4 +105,9 @@ router.put('/', isLoggedIn, async function(req, res) {
   }
 });
 
+router.delete("/", isLoggedIn, async function(req, res) {
+  await User.updateOne({_id: req.user._id}, {deletedOn: Date.now()});
+  res.send("Deactivated account");
+});
+
 module.exports = router;

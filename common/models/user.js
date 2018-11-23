@@ -57,6 +57,8 @@ UserSchema.statics.authenticate = async function (username, password) {
   const user = await User.findOne({username}).select('+password');
   if (!user) {
     throw new Error(`User not found for username ${username}`);
+  } else if (user.deletedOn < Date.now()) {
+    throw new Error("User has been deactivated");
   }
   const passwordsMatch = await bcrypt.compare(password, user.password);
   if (!passwordsMatch) {
