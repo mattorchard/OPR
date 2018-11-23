@@ -3,15 +3,17 @@ import {UserConsumer} from "../../Contexts/UserContext";
 import ReactForm from "../../Shared/ReactForm";
 import SingleInputForm from "../../Shared/SingleInputForm";
 import axios from "axios";
+import {withRouter} from "react-router-dom";
 
-export default class UserScreen extends Component {
+class UserScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
       successMessage: "",
       errorMessage: ""
     };
-    this.updateEmail = this.updateEmail.bind(this)
+    this.updateEmail = this.updateEmail.bind(this);
+    UserScreen.deactivateAccount = UserScreen.deactivateAccount.bind(this);
   }
 
   async updateEmail(email)  {
@@ -29,11 +31,21 @@ export default class UserScreen extends Component {
     }
   }
 
+  static async deactivateAccount(forgetAuth) {
+    try {
+      await axios.delete("/users");
+      this.props.history.push("/");
+      forgetAuth();
+    } catch (error) {
+      this.setState({errorMessage: "Unable to delete account", successMessage: ""})
+    }
+  }
+
   render() {
     return <main>
       <h1>My Account</h1>
       <UserConsumer>{
-        ({user}) => (
+        ({user, forgetAuth}) => (
           <div>
             <UserDetails {...user}/>
             <SingleInputForm
@@ -45,9 +57,11 @@ export default class UserScreen extends Component {
             <EditPassword/>
             {this.state.errorMessage}
             {this.state.successMessage}
+            <button type="button" onClick={() => UserScreen.deactivateAccount(forgetAuth)}>Deactivate account?</button>
           </div>
         )}
       </UserConsumer>
+
     </main>;
   }
 }
@@ -89,3 +103,5 @@ class EditPassword extends ReactForm {
     }
   }
 }
+
+export default withRouter(UserScreen)
