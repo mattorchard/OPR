@@ -15,19 +15,21 @@ export default class CreateUserScreen extends Component {
   }
 
   async createUser(userInfo) {
-    const response = await axios.post("/users", userInfo);
-    if (response.ok) {
+    try {
+      await axios.post("/users", userInfo);
       this.setState({successMessage: "Account Created!", errorMessage: null});
-    } else {
+    } catch (error) {
       let errorMessage;
-      if (response.status === 412) {
+      if (error.response.status === 412) {
         errorMessage = "Missing fields"
-      } else if (response.status === 409) {
-        const fieldsInConflict = await response.json();
-        errorMessage = `[${fieldsInConflict}] already in use`;
+      } else if (error.response.status === 409) {
+        errorMessage = "Username or email already in use";
+      } else {
+        errorMessage = "Unknown error";
       }
       this.setState({errorMessage, successMessage: null});
     }
+
   }
 
   render() {
