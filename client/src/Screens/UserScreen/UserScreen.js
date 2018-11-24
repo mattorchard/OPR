@@ -1,10 +1,12 @@
 import React, {Component} from "react";
 import {UserConsumer} from "../../Contexts/UserContext";
-import ReactForm from "../../Shared/ReactForm";
 import SingleInputForm from "../../Shared/SingleInputForm";
 import axios from "axios";
 import {withRouter} from "react-router-dom";
 import Modal from "react-modal";
+import {DynamicSizedModal} from "../../Shared/Constants";
+import ChangePassword from "./ChangePassword";
+
 
 class UserScreen extends Component {
   constructor(props) {
@@ -49,25 +51,35 @@ class UserScreen extends Component {
       <UserConsumer>{
         ({user, forgetAuth}) => (
           <div>
+            <h2>Details:</h2>
             <UserDetails {...user}/>
-            <SingleInputForm
-              onSubmit={this.updateEmail}
-              value={user.email}
-              label="Change email">
-              <input type="email" placeholder="jdoe@example.com"/>
-            </SingleInputForm>
-            <EditPassword/>
+            <h2>Actions:</h2>
+            <ul>
+              <li>
+                <SingleInputForm
+                  onSubmit={this.updateEmail}
+                  value={user.email}
+                  label="Change email">
+                  <input type="email" placeholder="jdoe@example.com"/>
+                </SingleInputForm>
+              </li>
+              <li>
+                <ChangePassword/>
+              </li>
+              <li>
+                <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: true})}>
+                  Deactivate account?
+                </button>
+              </li>
+            </ul>
             {this.state.errorMessage}
             {this.state.successMessage}
 
-            <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: true})}>
-              Deactivate account?
-            </button>
-
-            <Modal contentLabel="Confirm account deactivation"
-              isOpen={this.state.isConfirmingAccountDeactivation}
-              style={{content: {top: '50%', left: '50%', right: 'auto', bottom: 'auto', marginRight: "-50%", transform: 'translate(-50%,-50%)'}}}>
-              <h3>Confirm account deactivation</h3>
+            <Modal contentLabel="Confirm Account Deactivation"
+                   isOpen={this.state.isConfirmingAccountDeactivation}
+                   onRequestClose={() => this.setState({isConfirmingAccountDeactivation: false})}
+                   style={DynamicSizedModal}>
+              <h3>Confirm Account Deactivation</h3>
               <p>
                 Are you sure you want to <strong>deactivate</strong> your account?
                 This action will also sign you out.
@@ -108,21 +120,6 @@ class UserDetails extends Component {
       </li>
 
     </ul>
-  }
-}
-
-//Todo: Edit password option
-class EditPassword extends ReactForm {
-  state = {
-    enabled: false
-  };
-
-  render() {
-    if (this.state.enabled) {
-      return <form/>
-    } else {
-      return <button type="button">Change password</button>
-    }
   }
 }
 
