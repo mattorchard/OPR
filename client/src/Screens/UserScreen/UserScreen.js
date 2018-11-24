@@ -6,6 +6,7 @@ import {withRouter} from "react-router-dom";
 import Modal from "react-modal";
 import {DynamicSizedModal} from "../../Shared/Constants";
 import ChangePassword from "./ChangePassword";
+import Alert from "../../Shared/Alert";
 
 
 class UserScreen extends Component {
@@ -17,7 +18,16 @@ class UserScreen extends Component {
       isConfirmingAccountDeactivation: false
     };
     this.updateEmail = this.updateEmail.bind(this);
-    UserScreen.deactivateAccount = UserScreen.deactivateAccount.bind(this);
+    this.changePassword = this.changePassword.bind(this);
+  }
+
+  async changePassword(password) {
+    try {
+      await axios.patch("/users", {password});
+      this.setState({successMessage: "Password updated", errorMessage: ""});
+    } catch (error) {
+      throw error;
+    }
   }
 
   async updateEmail(email) {
@@ -66,16 +76,16 @@ class UserScreen extends Component {
                 </SingleInputForm>
               </li>
               <li>
-                <ChangePassword/>
+                <ChangePassword changePassword={this.changePassword}/>
               </li>
               <li>
                 <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: true})}>
-                  Deactivate account?
+                  Deactivate account
                 </button>
               </li>
             </ul>
-            {this.state.errorMessage}
-            {this.state.successMessage}
+            <Alert type="danger">{this.state.errorMessage}</Alert>
+            <Alert type="success">{this.state.successMessage}</Alert>
 
             <Modal contentLabel="Confirm Account Deactivation"
                    isOpen={this.state.isConfirmingAccountDeactivation}

@@ -2,6 +2,7 @@ import React from "react";
 import ReactForm from "../../Shared/ReactForm";
 import Modal from "react-modal";
 import {DynamicSizedModal} from "../../Shared/Constants";
+import Alert from "../../Shared/Alert";
 
 
 export default class ChangePassword extends ReactForm {
@@ -44,11 +45,11 @@ export default class ChangePassword extends ReactForm {
     })
   };
 
-  onSubmit = event => {
+  changePassword = event => {
     event.preventDefault();
     if (this.state.confirmPassword === this.state.password) {
       try {
-        this.props.onSubmit(this.state.password);
+        this.props.changePassword(this.state.password);
         this.close();
       } catch (error) {
         this.setState({errorMessage: "Unable to change password"});
@@ -64,12 +65,13 @@ export default class ChangePassword extends ReactForm {
              isOpen={this.state.enabled}
              onRequestClose={this.close}
              style={DynamicSizedModal}>
-        <form className="vertical-form" onSubmit={this.onSubmit}>
+        <form className="vertical-form" onSubmit={this.changePassword}>
           <h3>Change Password</h3>
           <label>
             Password
             <input type="password"
                    name="password"
+                   minLength={6}
                    className="rounded-input"
                    required
                    value={this.state.password}
@@ -79,14 +81,17 @@ export default class ChangePassword extends ReactForm {
             Confirm Password
             <input type="password"
                    name="confirmPassword"
+                   minLength={6}
                    className="rounded-input"
                    required
                    value={this.state.confirmPassword}
                    onChange={this.handleInputChange}/>
           </label>
-          <p>{this.state.errorMessage}</p>
+          <div>
+            <Alert type="danger">{this.state.errorMessage}</Alert>
+          </div>
           <button className="btn btn-danger" type="reset" onClick={this.close}>Cancel</button>
-          <button className="btn btn-success" type="submit" onClick={this.onSubmit}>Submit</button>
+          <button className="btn btn-success" type="submit">Submit</button>
         </form>
       </Modal>
     </React.Fragment>
