@@ -6,7 +6,7 @@ import Link from "react-router-dom/es/Link";
 export default class LogoutButton extends Component {
   render() {
     return <UserConsumer>{({forgetAuth}) => (
-      <Link to="/" onClick={forgetAuth}>Logout</Link>
+      <Link className="btn" to="/" onClick={forgetAuth}>Logout</Link>
     )}</UserConsumer>
   }
 }

@@ -60,7 +60,9 @@ class UserScreen extends Component {
                   onSubmit={this.updateEmail}
                   value={user.email}
                   label="Change email">
-                  <input type="email" placeholder="jdoe@example.com"/>
+                  <input type="email"
+                         placeholder="jdoe@example.com"
+                         className="rounded-input"/>
                 </SingleInputForm>
               </li>
               <li>

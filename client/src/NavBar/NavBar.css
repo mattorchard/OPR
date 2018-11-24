@@ -1,5 +1,5 @@
 .nav-bar {
-    background-color: darkslategrey;
+    background-color: Teal ;
     padding: 10px;
     color: white;
     display: flex;
@@ -10,6 +10,7 @@
     color: white;
 }
 .nav-bar__title {
+    text-shadow: rgba(20,20,20,.5) 2px 2px 5px;
     padding-top: 5px;
     cursor: pointer;
     user-select: none;

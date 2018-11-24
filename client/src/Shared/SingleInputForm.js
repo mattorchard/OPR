@@ -41,11 +41,13 @@ export default class SingleInputForm extends ReactForm {
         <form onSubmit={this.handleSubmit}>
           {this.renderInput()}
           <button
+            className="btn btn-success"
             type="submit"
             aria-label="Submit">
             <FontAwesomeIcon icon="check" />
           </button>
           <button
+            className="btn btn-danger"
             type="reset"
             aria-label="Cancel"
             onClick={() => this.setState({open: false, value: ""})}>

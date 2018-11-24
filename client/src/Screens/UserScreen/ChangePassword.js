@@ -70,6 +70,7 @@ export default class ChangePassword extends ReactForm {
             Password
             <input type="password"
                    name="password"
+                   className="rounded-input"
                    required
                    value={this.state.password}
                    onChange={this.handleInputChange}/>
@@ -78,13 +79,14 @@ export default class ChangePassword extends ReactForm {
             Confirm Password
             <input type="password"
                    name="confirmPassword"
+                   className="rounded-input"
                    required
                    value={this.state.confirmPassword}
                    onChange={this.handleInputChange}/>
           </label>
           <p>{this.state.errorMessage}</p>
-          <button type="reset" onClick={this.close}>Cancel</button>
-          <button type="submit" onClick={this.onSubmit}>Submit</button>
+          <button className="btn btn-danger" type="reset" onClick={this.close}>Cancel</button>
+          <button className="btn btn-success" type="submit" onClick={this.onSubmit}>Submit</button>
         </form>
       </Modal>
     </React.Fragment>

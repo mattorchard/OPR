@@ -48,9 +48,9 @@ class LoginForm extends ReactForm {
             <input type="password" name="password" value={this.state.password} onChange={this.handleInputChange}/>
           </label>
           {this.state.loginFailed && (<span>
-            Incorrect username / password
+            <p>Incorrect username / password</p>
             </span>)}
-          <input type="submit" value="Login"/>
+          <button type="submit">Login</button>
         </form>
       )}
     </UserConsumer>
