@@ -61,12 +61,19 @@ input[type="submit"],
     padding: 7px 10px;
     border-radius: 1000px;
     margin: 2px;
-    border-color: grey;
+    border-color: lightgray;
     border-style: solid;
     -moz-outline-radius: 1000px;
 }
 a.btn {
     text-decoration: none;
+}
+.alert {
+    display: inline-block;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
 }
 .alert-success {
     color: #155724;
