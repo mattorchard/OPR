@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import ReactForm from "../../Shared/ReactForm";
 import axios from "axios";
 import "./CreateUserScreen.css";
+import Alert from "../../Shared/Alert";
 
 
 export default class CreateUserScreen extends Component {
@@ -37,8 +38,8 @@ export default class CreateUserScreen extends Component {
       <h1>Create User</h1>
       <UserDetailsForm onSubmit={this.createUser}/>
       <div>
-      {this.state.errorMessage}
-      {this.state.successMessage}
+        <Alert type="danger">{this.state.errorMessage}</Alert>
+        <Alert type="success">{this.state.successMessage}</Alert>
       </div>
     </main>
   }
@@ -67,7 +68,8 @@ class UserDetailsForm extends ReactForm {
         <label>
           Account Type
           <select name="role"
-                  onChange={this.handleInputChange}>
+                  onChange={this.handleInputChange}
+                  className="rounded-input">
             <option value="customer">Customer</option>
             <option value="owner">Owner</option>
           </select>
@@ -78,6 +80,7 @@ class UserDetailsForm extends ReactForm {
             <input
               name="maximumRent"
               type="number"
+              className="rounded-input"
               required={this.state.role === "customer"}
               placeholder={500}
               onChange={this.handleInputChange}/>
@@ -92,6 +95,7 @@ class UserDetailsForm extends ReactForm {
             minLength={4}
             maxLength={100}
             placeholder="jdoe"
+            className="rounded-input"
             onChange={this.handleInputChange}/>
         </label>
         <label>
@@ -101,6 +105,7 @@ class UserDetailsForm extends ReactForm {
             type="email"
             required
             placeholder="jdoe@example.com"
+            className="rounded-input"
             onChange={this.handleInputChange}/>
         </label>
         <label>
@@ -112,6 +117,7 @@ class UserDetailsForm extends ReactForm {
             placeholder="Password"
             minLength={6}
             maxLength={100}
+            className="rounded-input"
             onChange={this.handleInputChange}/>
         </label>
         <label>
@@ -123,6 +129,7 @@ class UserDetailsForm extends ReactForm {
             minLength={2}
             maxLength={100}
             placeholder="John"
+            className="rounded-input"
             onChange={this.handleInputChange}/>
         </label>
         <label>
@@ -134,6 +141,7 @@ class UserDetailsForm extends ReactForm {
             minLength={2}
             maxLength={100}
             placeholder="Doe"
+            className="rounded-input"
             onChange={this.handleInputChange}/>
         </label>
         <button type="submit">Submit</button>

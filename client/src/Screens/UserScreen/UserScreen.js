@@ -19,6 +19,7 @@ class UserScreen extends Component {
     };
     this.updateEmail = this.updateEmail.bind(this);
     this.changePassword = this.changePassword.bind(this);
+    this.deactivateAccount = this.deactivateAccount.bind(this);
   }
 
   async changePassword(password) {
@@ -45,7 +46,7 @@ class UserScreen extends Component {
     }
   }
 
-  static async deactivateAccount(forgetAuth) {
+  async deactivateAccount(forgetAuth) {
     try {
       await axios.delete("/users");
       this.props.history.push("/");
@@ -99,7 +100,7 @@ class UserScreen extends Component {
               <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: false})}>
                 Cancel
               </button>
-              <button type="button" onClick={() => UserScreen.deactivateAccount(forgetAuth)}>
+              <button type="button" onClick={() => this.deactivateAccount(forgetAuth)}>
                 Deactivate
               </button>
             </Modal>
