@@ -1,8 +1,8 @@
-form.vertical-form > label {
+.vertical-form > label {
     display: block;
     margin-bottom: 10px;
 }
-form.vertical-form > label > * {
+.vertical-form > label > * {
     display: block;
 }
 main {
