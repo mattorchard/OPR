@@ -2,8 +2,7 @@ form.vertical-form > label {
     display: block;
     margin-bottom: 10px;
 }
-form.vertical-form > label > input,
-form.vertical-form > label > select {
+form.vertical-form > label > * {
     display: block;
 }
 main {
@@ -61,8 +60,7 @@ input[type="submit"],
     padding: 7px 10px;
     border-radius: 1000px;
     margin: 2px;
-    border-color: lightgray;
-    border-style: solid;
+    border: solid lightgray;
     -moz-outline-radius: 1000px;
 }
 a.btn {
@@ -84,4 +82,10 @@ a.btn {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb
+}
+fieldset {
+    border: solid lightgray;
+}
+legend {
+    background: white;
 }
