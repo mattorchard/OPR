@@ -86,7 +86,8 @@ const Owner = User.discriminator("Owner", new mongoose.Schema({
 const Customer = User.discriminator("Customer", new mongoose.Schema({
   maximumRent: {
     type: Number,
-    require: true
+    required: true,
+    min: 1
   }
 }));
 
