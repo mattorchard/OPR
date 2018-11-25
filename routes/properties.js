@@ -27,4 +27,14 @@ router.post('/', hasRole("owner"), async function(req, res) {
   }
 });
 
+router.get('/', hasRole("owner"), async function(req, res) {
+  try {
+    const properties = await Property.find({ownerId: req.user._id});
+    res.json(properties.map(p => p.toObject()));
+  } catch (error) {
+    console.error("Unable to fetch owner's properties", error);
+    return res.status(500).send("Unable to create property");
+  }
+});
+
 module.exports = router;
