@@ -10,7 +10,12 @@ import CreateUserScreen from "./Screens/CreateUserScreen/CreateUserScreen";
 import BrowsePropertiesScreen from "./Screens/BrowsePropertiesScreen/BrowsePropertiesScreen";
 import VisitingListScreen from "./Screens/VisitingListScreen/VisitingListScreen";
 import NavBar from "./NavBar/NavBar";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
 
+[
+  faCheck, faTimes
+].forEach(icon => library.add(icon));
 
 export default class App extends Component {
 

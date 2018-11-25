@@ -24,7 +24,11 @@ export default class MyAccountBadge extends Component {
 
   removePopover() {
     this.setState({open: false});
-    document.removeEventListener("click", this.removePopover)
+    document.removeEventListener("click", this.removePopover);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this.removePopover);
   }
 
   render() {

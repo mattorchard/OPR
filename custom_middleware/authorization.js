@@ -14,6 +14,9 @@ async function isLoggedIn(req, res, next) {
     if (!req.user) {
       return res.status(401)
         .send("Failed to authenticate token")
+    } else if (req.user.deletedOn < Date.now()) {
+      return res.status(401)
+        .send("Account has been deactivated");
     }
     return next();
   } catch (error) {

@@ -81,4 +81,33 @@ router.get('/me', isLoggedIn, async function(req, res) {
   res.json(formatUser(req.user));
 });
 
+
+router.patch('/', isLoggedIn, async function(req, res) {
+  const {email, password} = req.body;
+  console.log("Foo", email, password);
+  if (!email && !password) {
+    return res.status(412).send("Nothing to update");
+  } else if (email && password) {
+    return res.status(412).send("Cannot update password and set email simultaneously");
+  }
+  if (email) {
+    const usersMatchingEmail = await User.find({email});
+    if (usersMatchingEmail.length) {
+      return res.status(409).send("Email address already in use");
+    }
+    console.log(`Updating email: ${req.user.email} -> ${email}`);
+    await User.updateOne({_id: req.user.id}, {email});
+    res.send("User Updated")
+  } else if (password) {
+    req.user.password = password;
+    req.user.save();
+    res.send("Password updated");
+  }
+});
+
+router.delete("/", isLoggedIn, async function(req, res) {
+  await User.updateOne({_id: req.user._id}, {deletedOn: Date.now()});
+  res.send("Deactivated account");
+});
+
 module.exports = router;

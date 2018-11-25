@@ -6,6 +6,9 @@ form.vertical-form > label > input,
 form.vertical-form > label > select {
     display: block;
 }
+main {
+    padding: 20px;
+}
 .card {
     box-shadow: 2px 2px 5px rgba(20,20,20,.2);
     display: inline-block;
@@ -22,14 +25,63 @@ form.vertical-form > label > select {
     border-radius: 1000px;
     width: 3rem;
     height: 3rem;
+    box-shadow: 2px 2px 5px rgba(20,20,20,.5)
 }
 
 .avatar--customer {
-    background-color: green;
+    background-color: MediumSlateBlue;
 }
 .avatar--owner {
-    background-color: mediumpurple;
+    background-color: MediumVioletRed;
 }
 .avatar--agent {
-    background-color: dodgerblue;
+    background-color: MediumTurquoise;
+}
+button,
+input[type="button"],
+input[type="submit"],
+.btn {
+    background-color: tomato;
+    color: white;
+    font-weight: bold;
+    font-size: large;
+    border: none;
+    padding: 7px 10px;
+    border-radius: 1000px;
+    margin: 2px;
+    cursor: pointer;
+}
+.btn.btn-success {
+    background-color: #1d9137;
+}
+.btn.btn-danger {
+    background-color: #b42232;
+}
+.rounded-input {
+    padding: 7px 10px;
+    border-radius: 1000px;
+    margin: 2px;
+    border-color: lightgray;
+    border-style: solid;
+    -moz-outline-radius: 1000px;
+}
+a.btn {
+    text-decoration: none;
+}
+.alert {
+    display: inline-block;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb
 }
