@@ -119,10 +119,10 @@ export default class PropertyDetailsForm extends ReactForm {
           </label>
           {this.state.type === "apartment" && <label>
             Unit Number
-            {/*Todo: Required param*/}
             <input name="unitNumber"
                    className="rounded-input"
                    type="number"
+                   required
                    onChange={this.handleInputChange}/>
           </label>}
         </fieldset>
