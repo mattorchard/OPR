@@ -23,12 +23,12 @@ const UserSchema = new mongoose.Schema({
   givenName: {
     type: String,
     required: true,
-    trim: "true"
+    trim: true
   },
   lastName: {
     type: String,
     required: true,
-    trim: "true"
+    trim: true
   },
   createdOn: {
     type: Date,

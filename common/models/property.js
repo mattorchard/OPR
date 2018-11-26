@@ -5,11 +5,13 @@ const ObjectId = mongoose.Schema.Types.ObjectId;
 const AddressSchema = new mongoose.Schema({
   country: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   provinceOrState: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   postalCode: {
     type: String,
@@ -17,7 +19,8 @@ const AddressSchema = new mongoose.Schema({
   },
   streetName: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   streetNumber: {
     type: Number,
@@ -48,7 +51,7 @@ const PropertySchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: location => availableLocations.includes(location),
-      message: 'Must be [house] or [apartment]'
+      message: 'Must be in the list of available locations'
     }
   },
   ownerId: {
