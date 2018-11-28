@@ -8,3 +8,6 @@ export const formatAddress = (a, full) => {
   }
   return text;
 };
+
+export const formatDate = date =>
+  `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDay()}`;
