@@ -47,6 +47,8 @@ router.delete("/:propertyId", hasRole("owner"), async function(req, res) {
     if (!property.ownerId.equals(req.user._id)) {
       console.log("ASD", property.ownerId, req.user._id);
       return res.status(403).send("You cannot delete a property that you do not own");
+    } else if (property.deletedOn) {
+      return res.status(409).send("Property is already deleted");
     }
     property.deletedOn = Date.now();
     property.save();
