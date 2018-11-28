@@ -89,3 +89,6 @@ fieldset {
 legend {
     background: white;
 }
+.pull-right {
+    float: right;
+}

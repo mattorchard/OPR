@@ -43,7 +43,7 @@ export default class MyPropertiesScreen extends Component {
 
       <div>
         {this.state.myProperties.map(property =>
-          <PropertySummary key={property._id} {...property}/>)}
+          <PropertySummary key={property._id} {...property} owns={true}/>)}
       </div>
     </main>;
   }

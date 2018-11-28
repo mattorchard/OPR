@@ -11,10 +11,10 @@ import BrowsePropertiesScreen from "./Screens/BrowsePropertiesScreen/BrowsePrope
 import VisitingListScreen from "./Screens/VisitingListScreen/VisitingListScreen";
 import NavBar from "./NavBar/NavBar";
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {faCheck, faTimes} from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faTimes, faEdit, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
 [
-  faCheck, faTimes
+  faCheck, faTimes, faEdit, faTrashAlt
 ].forEach(icon => library.add(icon));
 
 export default class App extends Component {
