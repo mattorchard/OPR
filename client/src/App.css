@@ -92,3 +92,8 @@ legend {
 .pull-right {
     float: right;
 }
+hr {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    border-color: rgba(80,80,80,.05);
+}

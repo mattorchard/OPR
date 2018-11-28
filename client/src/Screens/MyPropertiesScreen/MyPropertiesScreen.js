@@ -35,16 +35,20 @@ export default class MyPropertiesScreen extends Component {
   render() {
     return <main>
       <h1>My Properties</h1>
+
+      <div>
+        {this.state.myProperties.map(property =>
+          <PropertySummary key={property._id} {...property} owns={true}/>)}
+      </div>
+      <hr/>
+
       <AddPropertyDialog onSubmit={this.addProperty}/>
       <div>
         <Alert type="success">{this.state.successMessage}</Alert>
         <Alert type="danger">{this.state.errorMessage}</Alert>
       </div>
 
-      <div>
-        {this.state.myProperties.map(property =>
-          <PropertySummary key={property._id} {...property} owns={true}/>)}
-      </div>
+      <hr/>
     </main>;
   }
 }
