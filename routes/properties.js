@@ -33,7 +33,27 @@ router.get('/', hasRole("owner"), async function(req, res) {
     res.json(properties.map(p => p.toObject()));
   } catch (error) {
     console.error("Unable to fetch owner's properties", error);
-    return res.status(500).send("Unable to create property");
+    return res.status(500).send("Unable to find property");
+  }
+});
+
+router.delete("/:propertyId", hasRole("owner"), async function(req, res) {
+  const propertyId = req.params.propertyId;
+  if (!propertyId) {
+    return res.status(404).send("No ID supplied for property deletion");
+  }
+  try {
+    const property = await Property.findById(propertyId);
+    if (!property.ownerId.equals(req.user._id)) {
+      console.log("ASD", property.ownerId, req.user._id);
+      return res.status(403).send("You cannot delete a property that you do not own");
+    }
+    property.deletedOn = Date.now();
+    property.save();
+    return res.send("Property deleted")
+  } catch (error) {
+    console.error("Unable to delete property", error);
+    return res.status(500).send("Unable to delete property");
   }
 });
 
