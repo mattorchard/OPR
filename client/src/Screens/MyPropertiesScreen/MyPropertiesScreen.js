@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import AddPropertyDialog from "./AddPropertyDialog";
 import axios from "axios";
 import Alert from "../../Shared/Alert";
-import PropertySummary from "../../Shared/Properties/PropertySummary";
+import OwnerPropertySummary from "../../Shared/Properties/OwnerPropertySummary";
 import {withAuth} from "../../Services/WithAuthentication";
 
 
@@ -38,7 +38,7 @@ export default class MyPropertiesScreen extends Component {
 
       <div>
         {this.state.myProperties.map(property =>
-          <PropertySummary key={property._id} {...property} owns={true}/>)}
+          <OwnerPropertySummary key={property._id} {...property} owns={true}/>)}
       </div>
       <hr/>
 
