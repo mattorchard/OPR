@@ -20,7 +20,7 @@ export default class PropertySummary extends React.Component {
         <li>Address: {formatAddress(this.props.address)}</li>
         <li>Location: {this.props.location}</li>
         {this.props.deletedOn &&
-        <li>Deleted On: {formatDate(new Date(this.props.deletedOn))}</li>}
+        <li className="alert-danger">Deleted On: {formatDate(new Date(this.props.deletedOn))}</li>}
       </ul>
       <div>
         <Alert type="success">{this.state.successMessage}</Alert>

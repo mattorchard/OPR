@@ -19,14 +19,14 @@ export default class MyPropertiesScreen extends Component {
     }
   };
 
-  async getMyProperties() {
+  getMyProperties = async () => {
     try {
       const response = await axios.get("/properties");
       this.setState({myProperties: response.data});
     } catch (error) {
       this.setState({errorMessage: "Unable to fetch properties", successMessage: ""})
     }
-  }
+  };
 
   componentDidMount() {
     withAuth(this.getMyProperties.bind(this));
@@ -38,7 +38,7 @@ export default class MyPropertiesScreen extends Component {
 
       <div>
         {this.state.myProperties.map(property =>
-          <OwnerPropertySummary key={property._id} {...property} owns={true}/>)}
+          <OwnerPropertySummary key={property._id} {...property} owns={true} onUpdate={() => window.location.reload()}/>)}
       </div>
       <hr/>
 
