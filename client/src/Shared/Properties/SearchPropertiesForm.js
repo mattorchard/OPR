@@ -28,7 +28,11 @@ export default class SearchPropertyForm extends ReactForm {
 
   submit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state);
+    const query = {...this.state};
+    if (this.state.locations.length === availableLocations.length) {
+      query.locations = [];
+    }
+    this.props.onSubmit(query);
   };
 
   render() {

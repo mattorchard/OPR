@@ -31,8 +31,8 @@ export default class BrowsePropertiesScreen extends Component {
     </main>;
   }
 
-  fetchFailed = () => this.setState({
-    errorMessage: "Error trying to fetch properties",
+  searchError = errorMessage => this.setState({
+    errorMessage: errorMessage || "Error trying to fetch properties",
     successMessage: "",
     properties: []
   });
@@ -45,7 +45,7 @@ export default class BrowsePropertiesScreen extends Component {
       this.setState({properties, successMessage, errorMessage: ""});
     } catch (error) {
       console.error("Error browsing for properties", error);
-      this.fetchFailed();
+      this.searchError();
     }
   };
 
@@ -53,17 +53,20 @@ export default class BrowsePropertiesScreen extends Component {
     try {
       const sanitizedQuery = {};
       Object.entries(query).forEach(([field, value]) => {
-        if (value !== "" && value !== []) {
+        if (value !== "") {
           sanitizedQuery[field] = value;
         }
       });
+      if (Object.keys(sanitizedQuery).length < 2) {
+        return this.searchError("Must have at least one search parameter");
+      }
       const response = await axios.post("/properties/search", sanitizedQuery);
       const properties = response.data;
       const successMessage = properties.length ? "" : "No properties for search query";
       this.setState({properties, successMessage, errorMessage: ""});
     } catch (error) {
       console.error("Error searching for properties", error);
-      this.fetchFailed();
+      this.searchError();
     }
   };
 }
