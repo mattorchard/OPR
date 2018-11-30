@@ -15,7 +15,7 @@ export default class PropertySummary extends React.Component {
   render() {
     return <div className="card card--row">
       {this.actionRow}
-      <div className="card__inset">
+      <div className="card--inset">
         <RoomCountBadges {...this.props}/>
       </div>
       <ul>

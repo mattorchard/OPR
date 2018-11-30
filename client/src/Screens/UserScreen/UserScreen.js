@@ -62,31 +62,30 @@ class UserScreen extends Component {
       <UserConsumer>{
         ({user, forgetAuth}) => (
           <div>
-            <h2>Details:</h2>
             <UserDetails {...user}/>
-            <h2>Actions:</h2>
-            <ul>
-              <li>
-                <SingleInputForm
-                  onSubmit={this.updateEmail}
-                  value={user.email}
-                  label="Change email">
-                  <input type="email"
-                         placeholder="jdoe@example.com"
-                         className="rounded-input"/>
-                </SingleInputForm>
-              </li>
-              <li>
-                <ChangePassword changePassword={this.changePassword}/>
-              </li>
-              <li>
-                <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: true})}>
-                  Deactivate account
-                </button>
-              </li>
-            </ul>
-            <Alert type="danger">{this.state.errorMessage}</Alert>
-            <Alert type="success">{this.state.successMessage}</Alert>
+            <hr/>
+
+            <div style={{display: "flex", justifyContent: "stretch"}}>
+              <SingleInputForm
+                onSubmit={this.updateEmail}
+                value={user.email}
+                label="Change email">
+                <input type="email"
+                       placeholder="jdoe@example.com"
+                       className="rounded-input"/>
+              </SingleInputForm>
+
+              <ChangePassword changePassword={this.changePassword}/>
+
+              <button type="button" onClick={() => this.setState({isConfirmingAccountDeactivation: true})}>
+                Deactivate account
+              </button>
+            </div>
+
+            <div>
+              <Alert type="danger">{this.state.errorMessage}</Alert>
+              <Alert type="success">{this.state.successMessage}</Alert>
+            </div>
 
             <Modal contentLabel="Confirm Account Deactivation"
                    isOpen={this.state.isConfirmingAccountDeactivation}
@@ -115,24 +114,25 @@ class UserScreen extends Component {
 class UserDetails extends Component {
 
   render() {
-    return <ul className="vertical-form">
-      <li>
-        Given Name: {this.props.givenName}
-      </li>
-      <li>
-        Last Name: {this.props.lastName}
-      </li>
-      <li>
-        Username: {this.props.username}
-      </li>
-      <li>
-        Role: {this.props.role}
-      </li>
-      <li>
-        Email: {this.props.email}
-      </li>
-
-    </ul>
+    return <div className="card card--inset">
+      <ul>
+        <li>
+          Given Name: {this.props.givenName}
+        </li>
+        <li>
+          Last Name: {this.props.lastName}
+        </li>
+        <li>
+          Username: {this.props.username}
+        </li>
+        <li>
+          Role: {this.props.role}
+        </li>
+        <li>
+          Email: {this.props.email}
+        </li>
+      </ul>
+    </div>
   }
 }
 

@@ -13,11 +13,12 @@ main {
     display: inline-block;
     padding: 10px;
 }
-.card__inset {
+.card--inset {
     margin: 20px;
 }
 .card--row {
     display: block;
+    margin-bottom: 30px;
 }
 .avatar {
     cursor: pointer;
@@ -115,4 +116,7 @@ hr {
 }
 .room-count > :first-child {
     margin-right: 0.25rem;
+}
+.inline-form {
+    display: inline-block;
 }
