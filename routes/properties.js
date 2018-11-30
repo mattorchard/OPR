@@ -102,4 +102,47 @@ router.get("/browse/:location", isLoggedIn, async function(req, res) {
   }
 });
 
+router.post("/search", isLoggedIn, async function(req, res) {
+  const {bedrooms, bathrooms, otherRooms, maximumRent, minimumRent, locations, type} = req.body;
+  const query = {};
+  if (bedrooms || bedrooms === 0) {
+    query.bedrooms = bedrooms;
+  }
+  if (bathrooms || bathrooms === 0) {
+    query.bathrooms = bathrooms;
+  }
+  if (otherRooms || otherRooms === 0) {
+    query.otherRooms = otherRooms;
+  }
+  if (maximumRent || minimumRent) {
+    query.rent = {};
+    if (minimumRent) {
+      query.rent.$gte = minimumRent;
+    }
+    if (maximumRent) {
+      query.rent.$lte = maximumRent;
+    }
+  }
+  if (locations && locations.length > 0) {
+    query.location = {$in: locations};
+  }
+
+  if (type) {
+    query.type = type;
+  }
+
+  if (Object.keys(query).length < 1) {
+    res.status(412).send("Must supply one or more query parameters");
+  }
+
+  try {
+    const properties = await Property.find(query);
+    console.log(`Found ${properties.length} properties`);
+    return res.json(properties.map(property => property.toObject()));
+  } catch (error) {
+    console.error("Unable to fetch properties", error);
+    return res.status(500).send("Unable to fetch properties");
+  }
+});
+
 module.exports = router;
