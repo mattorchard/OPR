@@ -13,6 +13,12 @@ main {
     display: inline-block;
     padding: 10px;
 }
+.card__inset {
+    margin: 20px;
+}
+.card--row {
+    display: block;
+}
 .avatar {
     cursor: pointer;
     font-size: large;
@@ -96,4 +102,17 @@ hr {
     margin-top: 1rem;
     margin-bottom: 2rem;
     border-color: rgba(80,80,80,.05);
+}
+.room-count {
+    user-select: none;
+    font-size: large;
+    margin-right: 0.5rem;
+    background-color: Teal;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 1000px;
+    font-weight: bold;
+}
+.room-count > :first-child {
+    margin-right: 0.25rem;
 }

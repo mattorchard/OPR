@@ -1,6 +1,7 @@
 import React from "react";
 import {formatAddress, formatDate} from "../../Services/FormatService";
 import Alert from "../Alert";
+import RoomCountBadges from "../RoomCountBadges";
 
 
 export default class PropertySummary extends React.Component {
@@ -12,8 +13,11 @@ export default class PropertySummary extends React.Component {
 
 
   render() {
-    return <div className="card">
+    return <div className="card card--row">
       {this.actionRow}
+      <div className="card__inset">
+        <RoomCountBadges {...this.props}/>
+      </div>
       <ul>
         <li><strong>${this.props.rent}</strong>/mo</li>
         <li>Type: {this.props.type}</li>
