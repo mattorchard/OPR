@@ -9,3 +9,4 @@ export const DynamicSizedModal = {
   }
 };
 
+export const availableLocations = ["Ottawa", "Toronto", "Cobourg"];
