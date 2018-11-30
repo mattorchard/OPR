@@ -105,13 +105,13 @@ router.get("/browse/:location", isLoggedIn, async function(req, res) {
 router.post("/search", isLoggedIn, async function(req, res) {
   const {bedrooms, bathrooms, otherRooms, maximumRent, minimumRent, locations, type} = req.body;
   const query = {};
-  if (bedrooms || bedrooms === 0) {
+  if (bedrooms || parseInt(bedrooms) === 0) {
     query.bedrooms = bedrooms;
   }
-  if (bathrooms || bathrooms === 0) {
+  if (bathrooms || parseInt(bathrooms) === 0) {
     query.bathrooms = bathrooms;
   }
-  if (otherRooms || otherRooms === 0) {
+  if (otherRooms || parseInt(otherRooms) === 0) {
     query.otherRooms = otherRooms;
   }
   if (maximumRent || minimumRent) {
@@ -132,7 +132,7 @@ router.post("/search", isLoggedIn, async function(req, res) {
   }
 
   if (Object.keys(query).length < 1) {
-    res.status(412).send("Must supply one or more query parameters");
+    return res.status(412).send("Must supply one or more query parameters");
   }
 
   try {
