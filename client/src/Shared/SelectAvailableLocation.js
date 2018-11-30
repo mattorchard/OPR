@@ -1,6 +1,5 @@
 import React from "react";
-
-const availableLocations = ["Ottawa", "Toronto", "Cobourg"];
+import {availableLocations} from "./Constants";
 
 export default class SelectAvailableLocation extends React.Component {
 
