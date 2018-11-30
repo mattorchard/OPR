@@ -5,36 +5,58 @@ import SelectAvailableLocation from "../SelectAvailableLocation";
 export default class PropertyDetailsForm extends ReactForm {
   constructor(props) {
     super(props);
-    const {
-      type,
-      location,
-      bedrooms,
-      bathrooms,
-      otherRooms,
-      rent,
-      country,
-      provinceOrState,
-      city,
-      postalCode,
-      streetName,
-      streetNumber,
-      unitNumber
-    } = props;
-    this.state = {
-      type,
-      location,
-      bedrooms,
-      bathrooms,
-      otherRooms,
-      rent,
-      country,
-      provinceOrState,
-      city,
-      postalCode,
-      streetName,
-      streetNumber,
-      unitNumber
-    };
+    if (props.property) {
+      const {
+        type,
+        location,
+        bedrooms,
+        bathrooms,
+        otherRooms,
+        rent
+      } = props.property;
+      const {
+        country,
+        provinceOrState,
+        city,
+        postalCode,
+        streetName,
+        streetNumber,
+        unitNumber
+      } = props.property.address;
+      this.state = {
+        type,
+        location,
+        bedrooms,
+        bathrooms,
+        otherRooms,
+        rent,
+        country,
+        provinceOrState,
+        city,
+        postalCode,
+        streetName,
+        streetNumber,
+        unitNumber
+      };
+      this.initialType = type;
+      this.initialLocation = location;
+    } else {
+      this.state = {
+        type: "house",
+        location: "",
+        bedrooms: "",
+        bathrooms: "",
+        otherRooms: "",
+        rent: "",
+        country: "",
+        provinceOrState: "",
+        city: "",
+        postalCode: "",
+        streetName: "",
+        streetNumber: "",
+        unitNumber: ""
+      };
+    }
   }
 
   submit = event => {
@@ -53,6 +75,8 @@ export default class PropertyDetailsForm extends ReactForm {
                  name="type"
                  value="house"
                  required
+                 defaultChecked={this.initialType === "house"}
+                 disabled={this.props.forEdit}
                  onChange={this.handleInputChange}/>
           House
         </label>
@@ -61,12 +85,14 @@ export default class PropertyDetailsForm extends ReactForm {
                  name="type"
                  value="apartment"
                  required
+                 defaultChecked={this.initialType === "apartment"}
+                 disabled={this.props.forEdit}
                  onChange={this.handleInputChange}/>
           Apartment
         </label>
       </fieldset>
       <div style={{display: "flex"}}>
-        <fieldset className="vertical-form">
+        <fieldset className="vertical-form" disabled={this.props.forEdit}>
           <legend>Address</legend>
           <label>
             Country
@@ -74,6 +100,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="text"
                    required
+                   value={this.state.country}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -82,6 +109,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="text"
                    required
+                   value={this.state.provinceOrState}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -90,6 +118,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="text"
                    required
+                   value={this.state.city}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -99,6 +128,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="text"
                    required
+                   value={this.state.postalCode}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -107,6 +137,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="text"
                    required
+                   value={this.state.streetName}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -115,6 +146,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="number"
                    required
+                   value={this.state.streetNumber}
                    onChange={this.handleInputChange}/>
           </label>
           {this.state.type === "apartment" && <label>
@@ -123,6 +155,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    className="rounded-input"
                    type="number"
                    required
+                   value={this.state.unitNumber}
                    onChange={this.handleInputChange}/>
           </label>}
         </fieldset>
@@ -131,7 +164,11 @@ export default class PropertyDetailsForm extends ReactForm {
           <legend>Property Details</legend>
           <label>
             Location
-            <SelectAvailableLocation name="location" onChange={this.handleInputChange}/>
+            <SelectAvailableLocation
+              disabled={this.props.forEdit}
+              defaultValue={this.initialLocation}
+              name="location"
+              onChange={this.handleInputChange}/>
           </label>
 
           <label>
@@ -140,6 +177,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    type="number"
                    className="rounded-input"
                    required
+                   value={this.state.rent}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -148,6 +186,7 @@ export default class PropertyDetailsForm extends ReactForm {
                    type="number"
                    className="rounded-input"
                    required
+                   value={this.state.bathrooms}
                    onChange={this.handleInputChange}/>
           </label>
           <label>
@@ -156,8 +195,8 @@ export default class PropertyDetailsForm extends ReactForm {
                    type="number"
                    className="rounded-input"
                    required
+                   value={this.state.bedrooms}
                    onChange={this.handleInputChange}/>
-
           </label>
           <label>
             Number of Other Rooms:
@@ -165,8 +204,8 @@ export default class PropertyDetailsForm extends ReactForm {
                    type="number"
                    className="rounded-input"
                    required
+                   value={this.state.otherRooms}
                    onChange={this.handleInputChange}/>
-
           </label>
         </fieldset>
       </div>

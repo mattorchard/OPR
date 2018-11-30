@@ -3,19 +3,15 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import PropertySummary from "./PropertySummary";
 import ConfirmationModal from "../ConfirmationModal";
+import PropertyEditModal from "../../Screens/MyPropertiesScreen/PropertyEditModal";
 
 export default class OwnerPropertySummary extends PropertySummary {
   constructor(props) {
     super(props);
     if (!this.props.deletedOn) {
       this.actionRow = <div className="pull-right">
-        <button
-          type="button"
-          aria-label="Edit"
-          title="Edit Property"
-          onClick={this.editProperty}>
-          <FontAwesomeIcon icon="edit"/>
-        </button>
+
+        <PropertyEditModal property={{...this.props}}/>
         <ConfirmationModal
           contentLabel="Confirm Delete Property"
           message="Are you sure you want to delete this property?"
@@ -30,10 +26,6 @@ export default class OwnerPropertySummary extends PropertySummary {
       </div>
     }
   }
-
-  editProperty = async () => {
-    console.log("Attempting to Edit")
-  };
 
   deleteProperty = async () => {
     try {
