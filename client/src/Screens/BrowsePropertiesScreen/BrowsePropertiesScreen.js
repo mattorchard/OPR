@@ -8,28 +8,18 @@ import PropertySummary from "../../Shared/Properties/PropertySummary";
 
 
 export default class BrowsePropertiesScreen extends Component {
-
-  state = {errorMessage: "", successMessage: "", properties: []};
-
-  render() {
-    return <main>
-      <h1>Browse Properties</h1>
-      <div style={{display: "flex", justifyContent: "space-evenly"}}>
-        <SearchPropertyForm onSubmit={this.searchProperties}/>
-        <LocationForm onSubmit={this.browsePropertiesByLocation}/>
-      </div>
-      <hr/>
-      <div>
-        <Alert type="success">{this.state.successMessage}</Alert>
-        <Alert type="danger">{this.state.errorMessage}</Alert>
-      </div>
-      <div>
-        {this.state.properties.map(property =>
-          <PropertySummary key={property._id} {...property}/>)
-        }
-      </div>
-    </main>;
+  constructor(props) {
+    super(props);
+    this.state = {errorMessage: "", successMessage: "", properties: []};
+    this.searchResultsRef = React.createRef();
   }
+
+  scrollToSearchResults = () => {
+    window.scrollTo({
+      top:this.searchResultsRef.current.offsetTop,
+      behavior: "smooth"
+    })
+  };
 
   searchError = errorMessage => this.setState({
     errorMessage: errorMessage || "Error trying to fetch properties",
@@ -47,6 +37,7 @@ export default class BrowsePropertiesScreen extends Component {
       console.error("Error browsing for properties", error);
       this.searchError();
     }
+    this.scrollToSearchResults();
   };
 
   searchProperties = async query => {
@@ -58,6 +49,7 @@ export default class BrowsePropertiesScreen extends Component {
         }
       });
       if (Object.keys(sanitizedQuery).length < 2) {
+        this.scrollToSearchResults();
         return this.searchError("Must have at least one search parameter");
       }
       const response = await axios.post("/properties/search", sanitizedQuery);
@@ -68,7 +60,28 @@ export default class BrowsePropertiesScreen extends Component {
       console.error("Error searching for properties", error);
       this.searchError();
     }
+    this.scrollToSearchResults();
   };
+
+  render() {
+    return <main>
+      <h1>Browse Properties</h1>
+      <div style={{display: "flex", justifyContent: "space-evenly"}}>
+        <SearchPropertyForm onSubmit={this.searchProperties}/>
+        <LocationForm onSubmit={this.browsePropertiesByLocation}/>
+      </div>
+      <hr/>
+      <div>
+        <Alert type="success">{this.state.successMessage}</Alert>
+        <Alert type="danger">{this.state.errorMessage}</Alert>
+      </div>
+      <div ref={this.searchResultsRef}>
+        {this.state.properties.map(property =>
+          <PropertySummary key={property._id} {...property}/>)
+        }
+      </div>
+    </main>;
+  }
 }
 
 class LocationForm extends ReactForm {
