@@ -41,11 +41,21 @@ class LoginForm extends ReactForm {
         <form className="card vertical-form" onSubmit={(event) => this.login(event, saveAuth)}>
           <label>
             Username
-            <input type="text" name="username" value={this.state.username} onChange={this.handleInputChange}/>
+            <input
+              type="text"
+              name="username"
+              value={this.state.username}
+              className="rounded-input"
+              onChange={this.handleInputChange}/>
           </label>
           <label>
             Password
-            <input type="password" name="password" value={this.state.password} onChange={this.handleInputChange}/>
+            <input
+              type="password"
+              name="password"
+              value={this.state.password}
+              className="rounded-input"
+              onChange={this.handleInputChange}/>
           </label>
           {this.state.loginFailed && (<span>
             <p>Incorrect username / password</p>

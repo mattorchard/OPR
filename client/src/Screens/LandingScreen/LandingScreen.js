@@ -9,7 +9,7 @@ export default class LandingScreen extends Component {
     return <main>
       <h1>Online Property Rental System</h1>
       Welcome to Houses of Dreams Online Property Rental System
-
+      <hr/>
       <UserConsumer>{({authenticated, user}) => {
         const links = { "/browse": "Browse Properties" };
         if (authenticated) {
@@ -22,10 +22,10 @@ export default class LandingScreen extends Component {
             links["/create-account"] = "Create Account";
           }
         }
-        return <ul> {
+        return <div className="row"> {
           Object.entries(links).map(([url, label]) =>
-            <li key={url}><Link to={url}>{label}</Link></li>
-        )} </ul>;
+            <Link to={url} key={url} className="navigation-tile">{label}</Link>
+        )} </div>;
       }}
       </UserConsumer>
 

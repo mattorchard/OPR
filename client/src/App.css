@@ -130,3 +130,26 @@ hr {
 .inline-form {
     display: inline-block;
 }
+.row {
+    display: flex;
+    justify-content: center;
+}
+.navigation-tile {
+    display: inline-block;
+    padding: 30px;
+    font-size: x-large;
+    text-decoration: none;
+    background: darkslategrey;
+    color: white;
+    font-weight: bolder;
+    transition: transform ease 0.1s;
+    z-index: 1;
+    position: relative;
+}
+.navigation-tile:hover {
+    background-color: tomato;
+    z-index: 2;
+    position: relative;
+    transform: scale(1.25, 1.25);
+    box-shadow: 2px 2px 5px rgba(20,20,20,.2);
+}

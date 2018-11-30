@@ -10,7 +10,7 @@ export default class NavBar extends Component {
       <Link to="/" className="nav-bar__title">OPR System</Link>
       <UserConsumer>
         {({authenticated, user}) => (
-          authenticated ? <MyAccountBadge {...user}/> : <Link to="/login">Login</Link>
+          authenticated ? <MyAccountBadge {...user}/> : <Link to="/login" className="btn">Login</Link>
         )}
       </UserConsumer>
     </nav>
