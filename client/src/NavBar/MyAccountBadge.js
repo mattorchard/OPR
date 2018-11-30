@@ -46,6 +46,7 @@ export default class MyAccountBadge extends Component {
           <li>{this.props.givenName}</li>
           <li>{this.props.lastName}</li>
           <li>{this.props.role}</li>
+          <hr/>
           <li><LogoutButton/></li>
         </ul>
       </div>

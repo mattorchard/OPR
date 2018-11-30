@@ -19,6 +19,7 @@
     font-weight: bolder;
 }
 .my-account-badge {
+    user-select: none;
     position: relative;
 }
 .my-account-badge__popover {

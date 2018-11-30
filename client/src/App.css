@@ -1,9 +1,8 @@
-form.vertical-form > label {
+.vertical-form > label {
     display: block;
     margin-bottom: 10px;
 }
-form.vertical-form > label > input,
-form.vertical-form > label > select {
+.vertical-form > label > * {
     display: block;
 }
 main {
@@ -13,6 +12,13 @@ main {
     box-shadow: 2px 2px 5px rgba(20,20,20,.2);
     display: inline-block;
     padding: 10px;
+}
+.card--inset {
+    margin: 20px;
+}
+.card--row {
+    display: block;
+    margin-bottom: 30px;
 }
 .avatar {
     cursor: pointer;
@@ -61,8 +67,7 @@ input[type="submit"],
     padding: 7px 10px;
     border-radius: 1000px;
     margin: 2px;
-    border-color: lightgray;
-    border-style: solid;
+    border: solid lightgray;
     -moz-outline-radius: 1000px;
 }
 a.btn {
@@ -84,4 +89,34 @@ a.btn {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb
+}
+fieldset {
+    border: solid lightgray;
+}
+legend {
+    background: white;
+}
+.pull-right {
+    float: right;
+}
+hr {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    border-color: rgba(80,80,80,.05);
+}
+.room-count {
+    user-select: none;
+    font-size: large;
+    margin-right: 0.5rem;
+    background-color: Teal;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 1000px;
+    font-weight: bold;
+}
+.room-count > :first-child {
+    margin-right: 0.25rem;
+}
+.inline-form {
+    display: inline-block;
 }

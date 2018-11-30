@@ -23,12 +23,12 @@ const UserSchema = new mongoose.Schema({
   givenName: {
     type: String,
     required: true,
-    trim: "true"
+    trim: true
   },
   lastName: {
     type: String,
     required: true,
-    trim: "true"
+    trim: true
   },
   createdOn: {
     type: Date,
@@ -86,7 +86,8 @@ const Owner = User.discriminator("Owner", new mongoose.Schema({
 const Customer = User.discriminator("Customer", new mongoose.Schema({
   maximumRent: {
     type: Number,
-    require: true
+    required: true,
+    min: 1
   }
 }));
 

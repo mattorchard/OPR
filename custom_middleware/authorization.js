@@ -24,5 +24,15 @@ async function isLoggedIn(req, res, next) {
       .send("Failed to authenticate token");
   }
 }
-
-module.exports = {isLoggedIn};
+const hasRole = requiredRole => async (req, res, next) => {
+  return isLoggedIn(req, res, async() => {
+    const actualRole = req.user && req.user.__t && req.user.__t.toLowerCase();
+    if (actualRole === requiredRole.toLowerCase()) {
+      return next();
+    } else {
+      return res.status(403)
+        .send(`Cannot perform action. Must be a [${requiredRole}]`)
+    }
+  });
+};
+module.exports = {isLoggedIn, hasRole};

@@ -38,7 +38,7 @@ export default class SingleInputForm extends ReactForm {
   render() {
     if (this.state.open) {
       return (
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} className="inline-form">
           {this.renderInput()}
           <button
             className="btn btn-success"

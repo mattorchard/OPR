@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const {isLoggedIn} = require("../custom_middleware/authorization");
 
 const formatUser = user => ({
-  id: user._id,
+  _id: user._id,
   role: user.__t.toLowerCase(),
   email: user.email,
   username: user.username,
