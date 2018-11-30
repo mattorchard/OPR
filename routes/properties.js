@@ -1,8 +1,8 @@
 const express = require('express');
 const {Property} = require('../common/models/Property');
 const router = express.Router();
-const {hasRole} = require("../custom_middleware/authorization");
-
+const {hasRole, isLoggedIn} = require("../custom_middleware/authorization");
+const {availableLocations} = require("../common/constants");
 
 router.post('/', hasRole("owner"), async function(req, res) {
   try {
@@ -84,6 +84,21 @@ router.patch("/:propertyId", hasRole("owner"), async function(req, res) {
       console.error("Unable to update property", error);
       return res.status(500).send("Unable to update property");
     }
+  }
+});
+
+router.get("/browse/:location", isLoggedIn, async function(req, res) {
+  const location = req.params.location;
+  if (!availableLocations.includes(location)) {
+    return res.status(404).send(`Location not found. Must be one of [${availableLocations}]`)
+  }
+  try {
+    const properties = await Property.find({location});
+    console.log(`Found ${properties.length} properties`);
+    return res.json(properties.map(property => property.toObject()));
+  } catch (error) {
+    console.error("Unable to fetch properties", error);
+    return res.status(500).send("Unable to fetch properties");
   }
 });
 
