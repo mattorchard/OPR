@@ -5,6 +5,8 @@ import SearchPropertyForm from "../../Shared/Properties/SearchPropertiesForm";
 import axios from "axios";
 import Alert from "../../Shared/Alert";
 import PropertySummary from "../../Shared/Properties/PropertySummary";
+import {UserConsumer} from "../../Contexts/UserContext";
+import CustomerPropertySummary from "../../Shared/Properties/CustomerPropertySummary";
 
 
 export default class BrowsePropertiesScreen extends Component {
@@ -16,7 +18,7 @@ export default class BrowsePropertiesScreen extends Component {
 
   scrollToSearchResults = () => {
     window.scrollTo({
-      top:this.searchResultsRef.current.offsetTop,
+      top: this.searchResultsRef.current.offsetTop,
       behavior: "smooth"
     })
   };
@@ -63,6 +65,20 @@ export default class BrowsePropertiesScreen extends Component {
     this.scrollToSearchResults();
   };
 
+  addToVisitingList = async propertyId => {
+    try {
+      await axios.post(`visitingList/${propertyId}`);
+      this.setState({errorMessage: "", successMessage: "Added to visiting list"});
+    } catch (error) {
+      const status = error.response && error.response.status;
+      if (status === 409) {
+        this.setState({errorMessage: "Already on visiting list", successMessage: ""});
+      } else {
+        this.setState({errorMessage: "Unable to add to visiting list", successMessage: ""});
+      }
+    }
+  };
+
   render() {
     return <main>
       <h1>Browse Properties</h1>
@@ -75,11 +91,24 @@ export default class BrowsePropertiesScreen extends Component {
         <Alert type="success">{this.state.successMessage}</Alert>
         <Alert type="danger">{this.state.errorMessage}</Alert>
       </div>
-      <div ref={this.searchResultsRef}>
-        {this.state.properties.map(property =>
-          <PropertySummary key={property._id} {...property}/>)
-        }
-      </div>
+      <UserConsumer>{({authenticated, user}) => {
+        if (authenticated && user.role === "customer") {
+          return <div ref={this.searchResultsRef}>
+            {this.state.properties.map(property =>
+              <CustomerPropertySummary
+                key={property._id}
+                onAddToVisitingList={this.addToVisitingList}
+                {...property}/>)
+            }
+          </div>
+        } else {
+        return <div ref={this.searchResultsRef}>
+          {this.state.properties.map(property =>
+            <PropertySummary key={property._id} {...property}/>)
+          }
+        </div>
+        }}}
+      </UserConsumer>
     </main>;
   }
 }

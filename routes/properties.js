@@ -1,5 +1,5 @@
 const express = require('express');
-const {Property} = require('../common/models/Property');
+const {Property} = require('../common/models/property');
 const router = express.Router();
 const {hasRole} = require("../custom_middleware/authorization");
 const {availableLocations} = require("../common/constants");
@@ -93,7 +93,7 @@ router.get("/browse/:location", async function(req, res) {
     return res.status(404).send(`Location not found. Must be one of [${availableLocations}]`)
   }
   try {
-    const properties = await Property.find({location});
+    const properties = await Property.find({location, deletedOn: null});
     console.log(`Found ${properties.length} properties`);
     return res.json(properties.map(property => property.toObject()));
   } catch (error) {
@@ -134,6 +134,8 @@ router.post("/search", async function(req, res) {
   if (Object.keys(query).length < 1) {
     return res.status(412).send("Must supply one or more query parameters");
   }
+
+  query.deletedOn = null;
 
   try {
     const properties = await Property.find(query);
