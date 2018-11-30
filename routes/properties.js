@@ -45,7 +45,6 @@ router.delete("/:propertyId", hasRole("owner"), async function(req, res) {
   try {
     const property = await Property.findById(propertyId);
     if (!property.ownerId.equals(req.user._id)) {
-      console.log("ASD", property.ownerId, req.user._id);
       return res.status(403).send("You cannot delete a property that you do not own");
     } else if (property.deletedOn) {
       return res.status(409).send("Property is already deleted");
@@ -56,6 +55,35 @@ router.delete("/:propertyId", hasRole("owner"), async function(req, res) {
   } catch (error) {
     console.error("Unable to delete property", error);
     return res.status(500).send("Unable to delete property");
+  }
+});
+
+router.patch("/:propertyId", hasRole("owner"), async function(req, res) {
+  const propertyId = req.params.propertyId;
+  if (!propertyId) {
+    return res.status(404).send("No ID supplied for property update");
+  }
+  try {
+    const property = await Property.findById(propertyId);
+    if (!property.ownerId.equals(req.user._id)) {
+      return res.status(403).send("You cannot update a property that you do not own");
+    } else if (property.deletedOn) {
+      return res.status(409).send("Cannot update a property that has been deleted");
+    }
+    const {rent, bathrooms, bedrooms, otherRooms} = req.body;
+    property.rent = rent;
+    property.bathrooms = bathrooms;
+    property.bedrooms = bedrooms;
+    property.otherRooms = otherRooms;
+    const updatedProperty = await property.save();
+    return res.json(updatedProperty);
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      return res.status(412).send(error.message);
+    } else {
+      console.error("Unable to update property", error);
+      return res.status(500).send("Unable to update property");
+    }
   }
 });
 
