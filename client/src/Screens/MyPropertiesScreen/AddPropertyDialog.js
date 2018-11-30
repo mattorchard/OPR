@@ -20,12 +20,12 @@ export default class AddPropertyDialog extends Component {
 
   render() {
     return <React.Fragment>
-      {!this.state.open && <button
+      <button
         onClick={this.open}
         type="button"
         className="btn">
         Add Property
-      </button>}
+      </button>
       <Modal contentLabel="Add Property"
              isOpen={this.state.open}
              onRequestClose={this.close}
