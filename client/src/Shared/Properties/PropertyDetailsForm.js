@@ -63,6 +63,9 @@ export default class PropertyDetailsForm extends ReactForm {
     event.preventDefault();
     const {type, location, bedrooms, bathrooms, otherRooms, rent, ...address} = this.state;
     const property = {type, location, bedrooms, bathrooms, otherRooms, rent, address};
+    if (this.props.forEdit) {
+      property._id = this.props.property._id;
+    }
     this.props.onSubmit(property);
   };
 

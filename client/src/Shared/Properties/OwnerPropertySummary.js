@@ -1,6 +1,5 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import axios from "axios";
 import PropertySummary from "./PropertySummary";
 import ConfirmationModal from "../ConfirmationModal";
 import PropertyEditModal from "../../Screens/MyPropertiesScreen/PropertyEditModal";
@@ -11,7 +10,7 @@ export default class OwnerPropertySummary extends PropertySummary {
     if (!this.props.deletedOn) {
       this.actionRow = <div className="pull-right">
 
-        <PropertyEditModal property={{...this.props}}/>
+        <PropertyEditModal onSubmit={this.props.onEditProperty} property={{...this.props}}/>
         <ConfirmationModal
           contentLabel="Confirm Delete Property"
           message="Are you sure you want to delete this property?"
@@ -27,14 +26,8 @@ export default class OwnerPropertySummary extends PropertySummary {
     }
   }
 
-  deleteProperty = async () => {
-    try {
-      await axios.delete(`/properties/${this.props._id}`);
-    } catch (error) {
-      const message = (error.response && error.response.data) || "Unable to delete property";
-      this.setState({errorMessage: message, successMessage: ""});
-    }
-    this.props.onUpdate();
-  };
+
+
+  deleteProperty = () => this.props.onDeleteProperty(this.props._id);
 
 }

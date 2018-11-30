@@ -13,8 +13,8 @@ export default class PropertyEditModal extends React.Component {
 
   close = () => this.setState({open: false});
 
-  submit = propertyInfo => {
-    debugger;
+  submit = property => {
+    this.props.onSubmit(property);
     this.close();
   };
 

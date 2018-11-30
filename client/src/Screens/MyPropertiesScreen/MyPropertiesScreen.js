@@ -28,6 +28,28 @@ export default class MyPropertiesScreen extends Component {
     }
   };
 
+  deleteProperty = async propertyId => {
+    try {
+      await axios.delete(`/properties/${propertyId}`);
+      window.location.reload();
+    } catch (error) {
+      const message = (error.response && error.response.data) || "Unable to delete property";
+      this.setState({errorMessage: message, successMessage: ""});
+    }
+  };
+
+  editProperty = async property => {
+    try {
+      const {_id, rent, bathrooms, bedrooms, otherRooms} = property;
+      await axios.patch(`/properties/${_id}`, {rent, bathrooms, bedrooms, otherRooms});
+      window.location.reload();
+    } catch (error) {
+      const message = (error.response && error.response.data) || "Unable to update property";
+      this.setState({errorMessage: message, successMessage: ""});
+    }
+  };
+
+
   componentDidMount() {
     withAuth(this.getMyProperties.bind(this));
   }
@@ -38,17 +60,24 @@ export default class MyPropertiesScreen extends Component {
 
       <div>
         {this.state.myProperties.map(property =>
-          <OwnerPropertySummary key={property._id} {...property} owns={true} onUpdate={() => window.location.reload()}/>)}
+          <OwnerPropertySummary
+            key={property._id}
+            {...property}
+            owns={true}
+            onDeleteProperty={this.deleteProperty}
+            onEditProperty={this.editProperty}/>
+        )}
       </div>
       <hr/>
 
       <AddPropertyDialog onSubmit={this.addProperty}/>
+      <hr/>
+
       <div>
         <Alert type="success">{this.state.successMessage}</Alert>
         <Alert type="danger">{this.state.errorMessage}</Alert>
       </div>
 
-      <hr/>
     </main>;
   }
 }
