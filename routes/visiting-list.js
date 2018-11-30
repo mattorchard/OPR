@@ -30,4 +30,16 @@ router.post('/:propertyId', hasRole("customer"), async function (req, res) {
   }
 });
 
+router.get("/", hasRole("customer"), async function(req, res) {
+  try {
+    const visitingListItems = await VisitingListItem.find({customerId: req.user._id});
+    const propertyIds = visitingListItems.map(item => item.propertyId);
+    const properties = await Property.find({_id: {$in: propertyIds}, deletedOn: null});
+    res.json(properties.map(property => property.toObject()));
+  } catch (error) {
+    console.error("Failed to fetch visiting list", error);
+    return res.status(500).send("Failed to fetch visiting list");
+  }
+});
+
 module.exports = router;
