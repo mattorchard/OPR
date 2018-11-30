@@ -49,8 +49,22 @@ export default class BrowsePropertiesScreen extends Component {
     }
   };
 
-  searchProperties = query => {
-    debugger;
+  searchProperties = async query => {
+    try {
+      const sanitizedQuery = {};
+      Object.entries(query).forEach(([field, value]) => {
+        if (value !== "" && value !== []) {
+          sanitizedQuery[field] = value;
+        }
+      });
+      const response = await axios.post("/properties/search", sanitizedQuery);
+      const properties = response.data;
+      const successMessage = properties.length ? "" : "No properties for search query";
+      this.setState({properties, successMessage, errorMessage: ""});
+    } catch (error) {
+      console.error("Error searching for properties", error);
+      this.fetchFailed();
+    }
   };
 }
 
