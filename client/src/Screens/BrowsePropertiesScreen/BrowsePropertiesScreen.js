@@ -48,7 +48,7 @@ export default class BrowsePropertiesScreen extends Component {
           sanitizedQuery[field] = value;
         }
       });
-      if (Object.keys(sanitizedQuery).length < 2) {
+      if (Object.keys(sanitizedQuery).length < 2 && sanitizedQuery.locations.length < 1) {
         this.scrollToSearchResults();
         return this.searchError("Must have at least one search parameter");
       }
