@@ -1,7 +1,7 @@
 const express = require('express');
 const {Property} = require('../common/models/Property');
 const router = express.Router();
-const {hasRole, isLoggedIn} = require("../custom_middleware/authorization");
+const {hasRole} = require("../custom_middleware/authorization");
 const {availableLocations} = require("../common/constants");
 
 router.post('/', hasRole("owner"), async function(req, res) {
@@ -87,7 +87,7 @@ router.patch("/:propertyId", hasRole("owner"), async function(req, res) {
   }
 });
 
-router.get("/browse/:location", isLoggedIn, async function(req, res) {
+router.get("/browse/:location", async function(req, res) {
   const location = req.params.location;
   if (!availableLocations.includes(location)) {
     return res.status(404).send(`Location not found. Must be one of [${availableLocations}]`)
@@ -102,7 +102,7 @@ router.get("/browse/:location", isLoggedIn, async function(req, res) {
   }
 });
 
-router.post("/search", isLoggedIn, async function(req, res) {
+router.post("/search", async function(req, res) {
   const {bedrooms, bathrooms, otherRooms, maximumRent, minimumRent, locations, type} = req.body;
   const query = {};
   if (bedrooms || parseInt(bedrooms) === 0) {
