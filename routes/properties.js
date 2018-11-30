@@ -1,5 +1,5 @@
 const express = require('express');
-const {Property} = require('../common/models/Property');
+const {Property} = require('../common/models/property');
 const router = express.Router();
 const {hasRole} = require("../custom_middleware/authorization");
 const {availableLocations} = require("../common/constants");

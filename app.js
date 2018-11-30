@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const propertiesRouter = require('./routes/properties');
+const visitingListRouter = require('./routes/visiting-list');
 
 
 mongoose.connect(process.env.MONGO_URL);
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/properties', propertiesRouter);
+app.use('/visitingList', visitingListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -41,7 +43,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
