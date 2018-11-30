@@ -24,6 +24,7 @@ export default class VisitingListScreen extends Component {
     return <main>
       <h1>Visiting List</h1>
       <div>
+        {!this.state.properties.length && "No items in visiting list"}
         {this.state.properties.map(property =>
           <PropertySummary key={property._id} {...property}/>)}
       </div>
