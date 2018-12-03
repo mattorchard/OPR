@@ -11,14 +11,16 @@ export default class Thumbnail extends React.Component {
     return <React.Fragment>
       <img
         src={`/photos/${this.props.photoId}`}
+        alt=""
         onClick={() => this.setState({open: true})}
         />
       <Modal
+        appElement={document.body}
         contentLabel="Image"
         isOpen={this.state.open}
         onRequestClose={() => this.setState({open: false})}
         style={DynamicSizedModal}>
-        <img src={`/photos/${this.props.photoId}`}/>
+        <img src={`/photos/${this.props.photoId}`} alt=""/>
       </Modal>
     </React.Fragment>
   }
