@@ -66,6 +66,10 @@ input[type="submit"],
     margin: 2px;
     cursor: pointer;
 }
+.btn[disabled], button[disabled] {
+    background-color: grey;
+    cursor: not-allowed;
+}
 .btn.btn-success {
     background-color: #1d9137;
 }

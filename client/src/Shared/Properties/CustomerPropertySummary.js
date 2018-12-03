@@ -9,6 +9,10 @@ export default class CustomerPropertySummary extends PropertySummary {
     this.actionRow = <div className="pull-right">
       <button
         type="button"
+        disabled={this.props.tooExpensive}
+        title={this.props.tooExpensive ?
+          "Rent above maximum rent" :
+          "Add to visiting list"}
         onClick={() => this.props.onAddToVisitingList(this.props._id)}>
         Add to Vising List <FontAwesomeIcon icon="plus"/>
       </button>

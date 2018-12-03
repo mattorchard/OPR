@@ -13,7 +13,12 @@ router.post('/:propertyId', hasRole("customer"), async function (req, res) {
     const property = await Property.findById(propertyId);
     if (!property) {
       return res.status(404).send("No property for that ID");
+    } else if (property.rent > req.user.maximumRent) {
+      return res.status(412)
+        .send(`Cannot add property with rent ${property.rent}
+        for user with maximum rent ${req.user.maximumRent}`);
     }
+
     const existingVisitingListItem = await VisitingListItem.find({propertyId, customerId: req.user._id});
     if (existingVisitingListItem.length > 0) {
       return res.status(409).send("Already on visiting list");

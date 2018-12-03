@@ -97,6 +97,7 @@ export default class BrowsePropertiesScreen extends Component {
             {this.state.properties.map(property =>
               <CustomerPropertySummary
                 key={property._id}
+                tooExpensive={property.rent > user.maximumRent}
                 onAddToVisitingList={this.addToVisitingList}
                 {...property}/>)
             }
