@@ -153,3 +153,18 @@ hr {
     transform: scale(1.25, 1.25);
     box-shadow: 2px 2px 5px rgba(20,20,20,.2);
 }
+.upload-photo-preview {
+    display: block;
+}
+img {
+    height: auto
+}
+.thumbail-row {
+    width: 800px;
+}
+.thumbail-row > img {
+    width: 20%;
+}
+.thumbail-row > * {
+    vertical-align: text-top;
+}

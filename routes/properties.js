@@ -70,11 +70,12 @@ router.patch("/:propertyId", hasRole("owner"), async function(req, res) {
     } else if (property.deletedOn) {
       return res.status(409).send("Cannot update a property that has been deleted");
     }
-    const {rent, bathrooms, bedrooms, otherRooms} = req.body;
+    const {rent, bathrooms, bedrooms, otherRooms, photos} = req.body;
     property.rent = rent;
     property.bathrooms = bathrooms;
     property.bedrooms = bedrooms;
     property.otherRooms = otherRooms;
+    property.photoIds = photos;
     const updatedProperty = await property.save();
     return res.json(updatedProperty);
   } catch (error) {

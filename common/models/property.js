@@ -36,9 +36,12 @@ const AddressSchema = new mongoose.Schema({
   }
 });
 
-// Todo: Add photos
-// Todo: Add wait list
 const PropertySchema = new mongoose.Schema({
+  photoIds: {
+    type: [ObjectId],
+    required: true,
+    validate: [val => val.length === 5, "{PATH} must contain 5 images"]
+  },
   address: {
     type: AddressSchema,
     required: true

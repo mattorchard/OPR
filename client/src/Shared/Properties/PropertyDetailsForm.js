@@ -1,6 +1,8 @@
 import React from "react";
 import ReactForm from "../ReactForm";
 import SelectAvailableLocation from "../SelectAvailableLocation";
+import PhotoUploader from "./PhotoUploader";
+import axios from "axios";
 
 export default class PropertyDetailsForm extends ReactForm {
   constructor(props) {
@@ -12,7 +14,8 @@ export default class PropertyDetailsForm extends ReactForm {
         bedrooms,
         bathrooms,
         otherRooms,
-        rent
+        rent,
+        photoIds
       } = props.property;
       const {
         country,
@@ -36,7 +39,8 @@ export default class PropertyDetailsForm extends ReactForm {
         postalCode,
         streetName,
         streetNumber,
-        unitNumber
+        unitNumber,
+        photoIds
       };
       this.initialType = type;
       this.initialLocation = location;
@@ -54,19 +58,48 @@ export default class PropertyDetailsForm extends ReactForm {
         postalCode: "",
         streetName: "",
         streetNumber: "",
-        unitNumber: ""
+        unitNumber: "",
+        photoIds: new Array(5).fill(null)
       };
     }
   }
 
   submit = event => {
     event.preventDefault();
-    const {type, location, bedrooms, bathrooms, otherRooms, rent, ...address} = this.state;
-    const property = {type, location, bedrooms, bathrooms, otherRooms, rent, address};
+    const {type, location, bedrooms, bathrooms, otherRooms, rent, photoIds, ...address} = this.state;
+    const property = {type, location, bedrooms, bathrooms, otherRooms, rent, address, photoIds};
     if (this.props.forEdit) {
       property._id = this.props.property._id;
     }
     this.props.onSubmit(property);
+  };
+
+  handlePhotoUpload = async (file, index) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await axios.post("/photos", formData);
+      const photoId = response.data;
+      this.setState(oldState => {
+        oldState.photoIds[index] = photoId;
+        console.log("Updating image id to", photoId);
+        return oldState;
+      });
+    } catch(error) {
+      console.error(error);
+    }
+  };
+
+  handlePhotoReset = async(photoId, index) => {
+    this.setState(oldState => {
+      oldState.photoIds[index] = null;
+      return oldState;
+    });
+    try {
+      await axios.delete(`/photos/${photoId}`);
+    } catch (error) {
+      console.error("Unable to delete photo", photoId, error);
+    }
   };
 
   render() {
@@ -95,6 +128,18 @@ export default class PropertyDetailsForm extends ReactForm {
         </label>
       </fieldset>
       <div style={{display: "flex"}}>
+        <fieldset>
+          <legend>Photos:</legend>
+          {this.state.photoIds.map((photoId, index) =>
+            <PhotoUploader
+              key={`${index}-${photoId}`}
+              index={index}
+              photoId={photoId}
+              onChange={this.handlePhotoUpload}
+              onReset={this.handlePhotoReset}
+            />
+          )}
+        </fieldset>
         <fieldset className="vertical-form" disabled={this.props.forEdit}>
           <legend>Address</legend>
           <label>
