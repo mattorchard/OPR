@@ -163,12 +163,15 @@ hr {
 img {
     height: auto
 }
-.thumbail-row {
+.thumbnail-row {
     width: 800px;
 }
-.thumbail-row > img {
+.thumbnail-row > img {
     width: 20%;
 }
-.thumbail-row > * {
+.thumbnail-row > * {
     vertical-align: text-top;
+}
+.custom-validator:valid ~ .invalid-feedback {
+    display: none;
 }
