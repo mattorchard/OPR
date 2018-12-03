@@ -30,6 +30,7 @@ export default class PropertyEditModal extends React.Component {
       <Modal contentLabel="Edit Property"
              isOpen={this.state.open}
              onRequestClose={this.close}
+             appElement={document.body}
              style={DynamicSizedModal}>
         <h2>Edit Property</h2>
         <PropertyDetailsForm onSubmit={this.submit} property={this.props.property} forEdit={true}>
