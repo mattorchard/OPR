@@ -173,11 +173,15 @@ export default class PropertyDetailsForm extends ReactForm {
             Postal Code
             {/*Todo: Add Validator*/}
             <input name="postalCode"
-                   className="rounded-input"
+                   className="rounded-input custom-validator"
                    type="text"
                    required
+                   pattern="(^[0-9]{5}(-[0-9]{4})?$)|(^[A-z][0-9][A-z][ -]?[0-9][A-z][0-9]$)"
                    value={this.state.postalCode}
                    onChange={this.handleInputChange}/>
+            <p className="invalid-feedback alert-danger">
+              Invalid postal code
+            </p>
           </label>
           <label>
             Street Name

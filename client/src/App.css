@@ -66,6 +66,10 @@ input[type="submit"],
     margin: 2px;
     cursor: pointer;
 }
+.btn[disabled], button[disabled] {
+    background-color: grey;
+    cursor: not-allowed;
+}
 .btn.btn-success {
     background-color: #1d9137;
 }
@@ -159,12 +163,15 @@ hr {
 img {
     height: auto
 }
-.thumbail-row {
+.thumbnail-row {
     width: 800px;
 }
-.thumbail-row > img {
+.thumbnail-row > img {
     width: 20%;
 }
-.thumbail-row > * {
+.thumbnail-row > * {
     vertical-align: text-top;
+}
+.custom-validator:valid ~ .invalid-feedback {
+    display: none;
 }

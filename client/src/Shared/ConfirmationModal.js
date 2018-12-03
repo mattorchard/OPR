@@ -24,6 +24,7 @@ export default class ConfirmationModal extends React.Component {
       <Modal contentLabel={this.props.contentLabel}
              isOpen={this.state.open}
              onRequestClose={this.close}
+             appElement={document.body}
              style={DynamicSizedModal}>
         <h3>{this.props.title || this.props.contentLabel}</h3>
         <p>

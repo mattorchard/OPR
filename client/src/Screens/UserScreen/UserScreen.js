@@ -90,6 +90,7 @@ class UserScreen extends Component {
             <Modal contentLabel="Confirm Account Deactivation"
                    isOpen={this.state.isConfirmingAccountDeactivation}
                    onRequestClose={() => this.setState({isConfirmingAccountDeactivation: false})}
+                   appElement={document.body}
                    style={DynamicSizedModal}>
               <h3>Confirm Account Deactivation</h3>
               <p>

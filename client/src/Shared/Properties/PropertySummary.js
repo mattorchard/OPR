@@ -18,7 +18,7 @@ export default class PropertySummary extends React.Component {
         <RoomCountBadges {...this.props}/>
       </div>
       <div style={{display: "flex"}}>
-        <div className="thumbail-row">
+        <div className="thumbnail-row">
           {this.props.photoIds.map(photoId =>
             <Thumbnail
               key={photoId}

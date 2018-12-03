@@ -64,6 +64,7 @@ export default class ChangePassword extends ReactForm {
       <Modal contentLabel="Change Password"
              isOpen={this.state.enabled}
              onRequestClose={this.close}
+             appElement={document.body}
              style={DynamicSizedModal}>
         <form className="vertical-form" onSubmit={this.changePassword}>
           <h3>Change Password</h3>

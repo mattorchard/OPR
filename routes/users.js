@@ -4,20 +4,26 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {isLoggedIn} = require("../custom_middleware/authorization");
 
-const formatUser = user => ({
-  _id: user._id,
-  role: user.__t.toLowerCase(),
-  email: user.email,
-  username: user.username,
-  givenName: user.givenName,
-  lastName: user.lastName
-});
+const formatUser = user => {
+  const formattedUser = {
+    _id: user._id,
+    role: user.__t.toLowerCase(),
+    email: user.email,
+    username: user.username,
+    givenName: user.givenName,
+    lastName: user.lastName
+  };
+  if (formattedUser.role === "customer") {
+    formattedUser.maximumRent = user.maximumRent;
+  }
+  return formattedUser;
+};
 
-router.post('/agent', async function(req, res) {
+router.post('/agent', async function (req, res) {
   const {agentKey, email, username, password, givenName, lastName} = req.body;
   if (agentKey !== process.env.AGENT_KEY) {
     return res.status(418).send("Incorrect agent key");
-  } else if (!email || !username || !password || !givenName  || !lastName) {
+  } else if (!email || !username || !password || !givenName || !lastName) {
     return res.status(412).send("User must have all fields");
   }
   console.log(`Creating agent: ${email}`);
@@ -25,7 +31,7 @@ router.post('/agent', async function(req, res) {
     const createdAgent = await Agent.create({createdOn: Date.now(), email, username, password, givenName, lastName});
     console.log("Created agent");
     res.json(formatUser(createdAgent));
-  } catch(error) {
+  } catch (error) {
     res.status(500).send("Account not created");
     console.error("Account not created", error);
   }
@@ -33,9 +39,9 @@ router.post('/agent', async function(req, res) {
 
 
 // Intended for creating Owners and Customers as an Agent
-router.post('/', isLoggedIn, async function(req, res) {
+router.post('/', isLoggedIn, async function (req, res) {
   const {email, username, password, givenName, lastName, maximumRent, role} = req.body;
-  if (!email || !username || !password || !givenName  || !lastName) {
+  if (!email || !username || !password || !givenName || !lastName) {
     return res.status(412).send("User must have all fields");
   }
 
@@ -53,7 +59,7 @@ router.post('/', isLoggedIn, async function(req, res) {
     } else {
       return res.status(412).send("Type must be one of [customer, agent]");
     }
-     console.log("Account created!");
+    console.log("Account created!");
     res.json(formatUser(createdUser));
   } catch (error) {
     res.status(500).send("Account not created");
@@ -61,7 +67,7 @@ router.post('/', isLoggedIn, async function(req, res) {
   }
 });
 
-router.post('/login', async function(req, res) {
+router.post('/login', async function (req, res) {
   const {username, password} = req.body;
   console.log(`User: ${username} attempting login`);
   try {
@@ -71,18 +77,18 @@ router.post('/login', async function(req, res) {
       user: formatUser(user),
       token
     });
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     res.status(401).send("Incorrect username / password")
   }
 });
 
-router.get('/me', isLoggedIn, async function(req, res) {
+router.get('/me', isLoggedIn, async function (req, res) {
   res.json(formatUser(req.user));
 });
 
 
-router.patch('/', isLoggedIn, async function(req, res) {
+router.patch('/', isLoggedIn, async function (req, res) {
   const {email, password} = req.body;
   console.log("Foo", email, password);
   if (!email && !password) {
@@ -105,7 +111,7 @@ router.patch('/', isLoggedIn, async function(req, res) {
   }
 });
 
-router.delete("/", isLoggedIn, async function(req, res) {
+router.delete("/", isLoggedIn, async function (req, res) {
   await User.updateOne({_id: req.user._id}, {deletedOn: Date.now()});
   res.send("Deactivated account");
 });

@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const {availableLocations} = require("../constants");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
+const validatePostalCode = val =>
+  /(^[0-9]{5}(-[0-9]{4})?$)|(^[A-z][0-9][A-z][ -]?[0-9][A-z][0-9]$)/.test(val);
+
 const AddressSchema = new mongoose.Schema({
   country: {
     type: String,
@@ -20,7 +23,8 @@ const AddressSchema = new mongoose.Schema({
   },
   postalCode: {
     type: String,
-    required: true
+    required: true,
+    validate: [validatePostalCode, "Postal code must be a valid Canadian or American postal code"]
   },
   streetName: {
     type: String,

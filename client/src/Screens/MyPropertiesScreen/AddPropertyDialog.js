@@ -29,6 +29,7 @@ export default class AddPropertyDialog extends Component {
       <Modal contentLabel="Add Property"
              isOpen={this.state.open}
              onRequestClose={this.close}
+             appElement={document.body}
              style={DynamicSizedModal}>
         <h2>Add Property</h2>
         <PropertyDetailsForm onSubmit={this.submit}>

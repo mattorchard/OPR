@@ -40,8 +40,8 @@ export default class MyPropertiesScreen extends Component {
 
   editProperty = async property => {
     try {
-      const {_id, rent, bathrooms, bedrooms, otherRooms} = property;
-      await axios.patch(`/properties/${_id}`, {rent, bathrooms, bedrooms, otherRooms});
+      const {_id, rent, bathrooms, bedrooms, otherRooms, photoIds} = property;
+      await axios.patch(`/properties/${_id}`, {rent, bathrooms, bedrooms, otherRooms, photoIds});
       window.location.reload();
     } catch (error) {
       const message = (error.response && error.response.data) || "Unable to update property";
