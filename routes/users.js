@@ -1,5 +1,5 @@
 const express = require('express');
-const {User, Agent, Owner, Customer} = require('../common/models/User');
+const {User, Agent, Owner, Customer} = require('../common/models/user');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {isLoggedIn} = require("../custom_middleware/authorization");

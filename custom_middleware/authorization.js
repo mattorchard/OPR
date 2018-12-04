@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {User} = require('../common/models/User');
+const {User} = require('../common/models/user');
 
 async function isLoggedIn(req, res, next) {
   console.log("Checking if logged in");
