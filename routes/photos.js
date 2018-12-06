@@ -7,6 +7,11 @@ const storage = multer.memoryStorage();
 const fileSize = 5 * 1024 * 1024; // 5Mb
 const upload = multer({storage, limits:{fileSize}});
 
+// PhotosController
+// This Router is the implementation of the PhotosController
+
+
+// addPhoto
 router.post('/', hasRole("owner"), upload.single('file'), async function(req, res) {
   const file = req.file;
   if (!file) {
@@ -21,6 +26,7 @@ router.post('/', hasRole("owner"), upload.single('file'), async function(req, re
   }
 });
 
+// getPhoto
 router.get('/:photoId', async function (req, res) {
   const photoId = req.params.photoId;
   if (!photoId) {
@@ -37,6 +43,7 @@ router.get('/:photoId', async function (req, res) {
   }
 });
 
+// deletePhoto
 router.delete('/:photoId', hasRole("owner"), async function (req, res) {
   const photoId = req.params.photoId;
   if (!photoId) {

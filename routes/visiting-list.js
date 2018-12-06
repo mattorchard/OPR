@@ -4,6 +4,7 @@ const {hasRole} = require("../custom_middleware/authorization");
 const {Property} = require("../common/models/property");
 const {VisitingListItem} = require("../common/models/visiting-list-item");
 
+// addToVisitingList
 router.post('/:propertyId', hasRole("customer"), async function (req, res) {
   const propertyId = req.params.propertyId;
   if (!propertyId) {
@@ -35,6 +36,7 @@ router.post('/:propertyId', hasRole("customer"), async function (req, res) {
   }
 });
 
+// getVisitingList
 router.get("/", hasRole("customer"), async function(req, res) {
   try {
     const visitingListItems = await VisitingListItem.find({customerId: req.user._id});

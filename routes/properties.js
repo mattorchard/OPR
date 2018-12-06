@@ -4,6 +4,10 @@ const router = express.Router();
 const {hasRole} = require("../custom_middleware/authorization");
 const {availableLocations} = require("../common/constants");
 
+// PropertiesController
+// This Router is the implementation of the PropertiesController
+
+// addProperty
 router.post('/', hasRole("owner"), async function(req, res) {
   try {
     const {type, address} = req.body;
@@ -27,6 +31,7 @@ router.post('/', hasRole("owner"), async function(req, res) {
   }
 });
 
+// getPropertiesByOwner
 router.get('/', hasRole("owner"), async function(req, res) {
   try {
     const properties = await Property.find({ownerId: req.user._id});
@@ -37,6 +42,7 @@ router.get('/', hasRole("owner"), async function(req, res) {
   }
 });
 
+// deleteProperty
 router.delete("/:propertyId", hasRole("owner"), async function(req, res) {
   const propertyId = req.params.propertyId;
   if (!propertyId) {
@@ -58,6 +64,7 @@ router.delete("/:propertyId", hasRole("owner"), async function(req, res) {
   }
 });
 
+// updateProperty
 router.patch("/:propertyId", hasRole("owner"), async function(req, res) {
   const propertyId = req.params.propertyId;
   if (!propertyId) {
@@ -88,6 +95,7 @@ router.patch("/:propertyId", hasRole("owner"), async function(req, res) {
   }
 });
 
+// browsePropertiesByLocation
 router.get("/browse/:location", async function(req, res) {
   const location = req.params.location;
   if (!availableLocations.includes(location)) {
@@ -103,6 +111,7 @@ router.get("/browse/:location", async function(req, res) {
   }
 });
 
+// searchProperties
 router.post("/search", async function(req, res) {
   const {bedrooms, bathrooms, otherRooms, maximumRent, minimumRent, locations, type} = req.body;
   const query = {};

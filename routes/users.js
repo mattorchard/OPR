@@ -4,6 +4,9 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const {isLoggedIn} = require("../custom_middleware/authorization");
 
+// UsersController
+// This Router is the implementation of the UsersController
+
 const formatUser = user => {
   const formattedUser = {
     _id: user._id,
@@ -19,6 +22,7 @@ const formatUser = user => {
   return formattedUser;
 };
 
+// createAgent
 router.post('/agent', async function (req, res) {
   const {agentKey, email, username, password, givenName, lastName} = req.body;
   if (agentKey !== process.env.AGENT_KEY) {
@@ -38,7 +42,7 @@ router.post('/agent', async function (req, res) {
 });
 
 
-// Intended for creating Owners and Customers as an Agent
+// createUser
 router.post('/', isLoggedIn, async function (req, res) {
   const {email, username, password, givenName, lastName, maximumRent, role} = req.body;
   if (!email || !username || !password || !givenName || !lastName) {
@@ -67,6 +71,7 @@ router.post('/', isLoggedIn, async function (req, res) {
   }
 });
 
+// login
 router.post('/login', async function (req, res) {
   const {username, password} = req.body;
   console.log(`User: ${username} attempting login`);
@@ -83,11 +88,12 @@ router.post('/login', async function (req, res) {
   }
 });
 
+// getUser
 router.get('/me', isLoggedIn, async function (req, res) {
   res.json(formatUser(req.user));
 });
 
-
+// updateUser
 router.patch('/', isLoggedIn, async function (req, res) {
   const {email, password} = req.body;
   console.log("Foo", email, password);
@@ -111,6 +117,7 @@ router.patch('/', isLoggedIn, async function (req, res) {
   }
 });
 
+// deleteUser
 router.delete("/", isLoggedIn, async function (req, res) {
   await User.updateOne({_id: req.user._id}, {deletedOn: Date.now()});
   res.send("Deactivated account");
