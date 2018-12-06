@@ -175,3 +175,8 @@ img {
 .custom-validator:valid ~ .invalid-feedback {
     display: none;
 }
+
+.custom-validator[disabled]~.invalid-feedback,
+fieldset[disabled] .invalid-feedback{
+    display: none;
+}
